@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cba3e7c2e234fe844b5befb224d0bcd2, type: 3}
+  m_Name: GunBase
+  m_EditorClassIdentifier: 
+  weaponName: 
+  Gun: {fileID: 7875756403082022123, guid: b90bb76ae83d29e45a14cfd04ea94f38, type: 3}
+  magazineSize: 26
+  fireRate: 4.84
+  damages: 0
+  numberBallSprea: 1
+  AngleShoot: 1
+  Projectile: 1
+  PrefabProjectile: {fileID: 5552615151539994376, guid: 95c4cc8f86f99264aa9ad1ffc2887c37, type: 3}
+  MuzzleEffect: {fileID: 0}
