@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+
 public class PlayerScript : MonoBehaviour
 {
     [SerializeField] private Rigidbody m_rb;
-    [SerializeField] private float m_speed;
+    [SerializeField] private float m_desiredSpeed;
+    [SerializeField] private float m_baseSpeed;
+    [SerializeField] private float m_wallRunSpeed;
     [SerializeField] private float m_jumpForce;
-    [SerializeField] private Camera m_camera;
+    public Camera m_camera;
     [SerializeField] private float m_sensitivityX;
     [SerializeField] private float m_sensitivityY;
     [SerializeField] private float m_minY = -80f;
@@ -17,11 +20,20 @@ public class PlayerScript : MonoBehaviour
     private bool m_canDoubleJump;
 
     private float rotationY = 0f;
-    
+
+    public MovementState state;
+
+    public bool sliding;
+    public bool crouching;
+    public bool wallRunning;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        m_desiredSpeed = m_baseSpeed;
     }
 
     // Update is called once per frame
@@ -41,7 +53,7 @@ public class PlayerScript : MonoBehaviour
     private void BaseMovement()
     {
         Vector3 inputs = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-        Vector3 Velocity = transform.rotation * inputs * m_speed;
+        Vector3 Velocity = transform.rotation * inputs * m_baseSpeed;
         m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
     }
     void jump()
@@ -58,30 +70,43 @@ public class PlayerScript : MonoBehaviour
                 m_canDoubleJump = false;
             }
         }
-
     }
     void UpdateCamera()
     {
-        if(Cursor.lockState == CursorLockMode.Locked)
+        if (Cursor.lockState == CursorLockMode.Locked)
         {
             float rotationX = transform.rotation.eulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
             rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
             //float rotationY = transform.rotation.eulerAngles.x + Input.GetAxis("Mouse Y") * m_sensitivityY;
             rotationY = Mathf.Clamp(rotationY, m_minY, m_maxY);
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, rotationX, transform.eulerAngles.z);
-            m_camera.transform.localEulerAngles = new Vector3 (-rotationY,0,0);
+            m_camera.transform.localEulerAngles = new Vector3(-rotationY, 0, m_camera.transform.localEulerAngles.z);
+        }
+    }
+
+    void stateManager()
+    {
+        if (wallRunning)
+        {
+            m_desiredSpeed = m_wallRunSpeed;
+            state = MovementState.wallrunning;
+        }
+        else
+        {
+            state = MovementState.walking;
+            m_desiredSpeed = m_baseSpeed;
         }
     }
     void exitGame()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
     }
     void UnlockCursor()
     {
-        if(Input.GetKey(KeyCode.LeftAlt))
+        if (Input.GetKey(KeyCode.LeftAlt))
         {
             Cursor.lockState = CursorLockMode.None;
         }
@@ -99,4 +124,14 @@ public class PlayerScript : MonoBehaviour
     {
         m_isGrounded = false;
     }
+}
+
+public enum MovementState
+{
+    walking,
+    sprinting,
+    wallrunning,
+    crouching,
+    sliding,
+    air
 }
