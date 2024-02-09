@@ -8,12 +8,19 @@ public class WallRun : MonoBehaviour
     [SerializeField] private LayerMask whatIsWall;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private float wallRunForce;
+    [SerializeField] private float WallJumpUpForce = 20;
+    [SerializeField] private float WallJumpSideForce = 20;
     [SerializeField] private float maxWallRunTime = 2f;
     [SerializeField] private float leaningOnWall = 10;
-    [SerializeField] private float ExpulseWall = 20;
+    [SerializeField] private float wallClimbSpeed;
     private float wallRunTimer;
 
     [Header("Input")]
+    [SerializeField] private KeyCode upwardRunkey = KeyCode.LeftShift;
+    [SerializeField] private KeyCode downwardsRunkey = KeyCode.LeftControl;
+    [SerializeField] private KeyCode jumpKey = KeyCode.Space;
+    private bool upwardRunning;
+    private bool downwardsRunning;
     private float horizontalInput;
     private float verticalInput;
 
@@ -31,6 +38,10 @@ public class WallRun : MonoBehaviour
     [SerializeField] private PlayerScript player;
     [SerializeField] private Rigidbody rb;
 
+    [Header("Exiting Wall")]
+    private bool exitingWall;
+    [SerializeField] private float exitWallTime;
+    private float exitWallTimer;
 
 
 
@@ -54,7 +65,6 @@ public class WallRun : MonoBehaviour
             wallRunTimer += Time.fixedDeltaTime;
             WallRunningMovement();
         }
-
     }
 
     private void checkWall()
@@ -75,13 +85,44 @@ public class WallRun : MonoBehaviour
 
     private void StateMachine()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
+        if (!player.wallRunning)
+        {
+            horizontalInput = Input.GetAxis("Horizontal");
+        }
 
-        if ((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && wallRunTimer < maxWallRunTime)
+        upwardRunning = Input.GetKey(upwardRunkey);
+        downwardsRunning = Input.GetKey(downwardsRunkey);
+
+
+        // State WallRun
+        if ((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && wallRunTimer < maxWallRunTime && !exitingWall)
         {
             //le début du wall run
             StartWallRun();
+            //WallJump
+            if (Input.GetKeyDown(jumpKey))
+            {
+                WallJump();
+            }
+        }
+        else if (exitingWall)
+        {
+            if (player.wallRunning)
+            {
+                StopWallRun();
+            }
+            exitWallTimer += Time.deltaTime;
+            if (exitWallTimer > exitWallTime)
+            {
+                exitingWall = false;
+                exitWallTimer = 0;
+            }
+        }
+        else if (wallRunTimer >= maxWallRunTime)
+        {
+            //WallJump();
+            exitingWall = true;
         }
         else
         {
@@ -93,15 +134,15 @@ public class WallRun : MonoBehaviour
     private void StartWallRun()
     {
         player.wallRunning = true;
-
+        Camera camera = player.m_camera;
         if (wallLeft)
         {
-            player.m_camera.transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z - leaningOnWall);
+            player.m_camera.transform.localEulerAngles = new Vector3(player.m_camera.transform.localEulerAngles.x, player.m_camera.transform.localEulerAngles.y, transform.localEulerAngles.z - leaningOnWall);
 
         }
         else if (wallRight)
         {
-            player.m_camera.transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z + leaningOnWall);
+            player.m_camera.transform.localEulerAngles = new Vector3(player.m_camera.transform.localEulerAngles.x, player.m_camera.transform.localEulerAngles.y, transform.localEulerAngles.z + leaningOnWall);
         }
     }
 
@@ -112,6 +153,7 @@ public class WallRun : MonoBehaviour
         Vector3 wallNormal = wallRight ? rightWallHit.normal : leftWallHit.normal;
         Vector3 wallForward = Vector3.Cross(wallNormal, transform.up);
 
+        // Inverse le vecteur avant du mur si nécessaire pour s'assurer que le joueur aille toujours devant lui
         if ((transform.forward - wallForward).magnitude > (transform.forward + wallForward).magnitude)
         {
             wallForward = -wallForward;
@@ -122,7 +164,20 @@ public class WallRun : MonoBehaviour
 
         //force d'attirance vers le mur
         if (!(wallLeft && horizontalInput > 0) && !(wallRight && horizontalInput < 0))
+        {
             rb.AddForce(-wallNormal * 100, ForceMode.Force);
+        }
+        
+
+        //Monter et descente 
+        if (upwardRunning)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, wallClimbSpeed, rb.velocity.z);
+        }
+        if (downwardsRunning)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, -wallClimbSpeed, rb.velocity.z);
+        }
     }
 
     private void StopWallRun()
@@ -133,11 +188,23 @@ public class WallRun : MonoBehaviour
         player.m_camera.transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 0, 0);
         if (wallLeft)
         {
-            rb.AddForce(Vector3.right * ExpulseWall, ForceMode.Impulse);
+            rb.AddForce(Vector3.right * WallJumpSideForce, ForceMode.Impulse);
         }
         else if (wallRight)
         {
-            rb.AddForce(Vector3.left * ExpulseWall, ForceMode.Impulse);
+            rb.AddForce(Vector3.left * WallJumpSideForce, ForceMode.Impulse);
         }
+    }
+    private void WallJump()
+    {
+        exitingWall = true;
+
+        Vector3 wallNormal = wallRight ? rightWallHit.normal : leftWallHit.normal;
+
+        Vector3 forceToApply = transform.up * WallJumpUpForce + wallNormal * WallJumpSideForce;
+
+        //add force
+        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        rb.AddForce(forceToApply, ForceMode.Impulse);
     }
 }

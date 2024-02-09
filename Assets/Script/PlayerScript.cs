@@ -47,6 +47,9 @@ public class PlayerScript : MonoBehaviour
 
     void UpdateMovement()
     {
+        if (!wallRunning)
+        {
+        }
         BaseMovement();
         jump();
     }
