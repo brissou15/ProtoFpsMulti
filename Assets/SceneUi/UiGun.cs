@@ -43,12 +43,12 @@ public class UiGun : MonoBehaviour
 
 
 
-    Vector3 direction;
-    void Calcul(int angleRecup)
+   
+    Vector3 Calcul(int angleRecup)
     {
         Vector3 machin = Random.insideUnitSphere * angleRecup;
 
-        direction = Quaternion.Euler(machin.x, machin.y, machin.z) * CamUi.transform.forward;
+        return Quaternion.Euler(machin.x, machin.y, machin.z) * CamUi.transform.forward;
     }
     void ShootAndGunManager()
     {
@@ -61,70 +61,64 @@ public class UiGun : MonoBehaviour
 
                 // Debug.Log(CurrentWeaponAnim.GetFloat("TimerShootOui"));
 
-                if (TimerShoot >= 1 / CurrentWeaponD.fireRate)
+                if (TimerShoot >= 1 / CurrentWeaponD.ShootList[0].fireRate)
                 {
-                    shooting(CurrentWeaponD);
+                    shooting(CurrentWeaponD , 0);
                     TimerShoot = 0;
                 }
             }
         }
     }
 
-    private void shooting(WeaponSo ModelWeapon)
+    private void shooting(WeaponSo ModelWeapon , int typeTir)
     {
 
         //Grenade grenade = Instantiate(GrenadePreFab, transform.position + transform.forward + transform.up, Quaternion.identity);
 
         //grenade.throwDir = fpsCamera.transform.forward;
 
-        if (ModelWeapon.Projectile)
+        for (int i = 0; i < ModelWeapon.ShootList[typeTir].numberBallSprea; i++)
         {
-            GameObject Projectile = Instantiate(ModelWeapon.PrefabProjectile, CamUi.transform.position + CamUi.transform.right * 0.5f + -CamUi.transform.up * 0.2f, Quaternion.identity);
 
-            Projectile.GetComponent<ProjectileScriptRoquette>().throwDir = CamUi.transform.forward;
-            Projectile.transform.localRotation = CamUi.transform.rotation;
-            Projectile.GetComponent<ProjectileScriptRoquette>().LayerName = LayerMask.LayerToName(gameObject.layer);
-            Debug.Log(LayerMask.LayerToName(gameObject.layer));
+            Debug.Log(Calcul(ModelWeapon.ShootList[typeTir].AngleShoot) + "NoProj");
+            GameObject Projectile = Instantiate(ModelWeapon.ShootList[typeTir].PrefabProjectile, CamUi.transform.position + CamUi.transform.right * 0.3f + -CamUi.transform.up * 0.2f,
+                Quaternion.Euler(Calcul(ModelWeapon.ShootList[typeTir].AngleShoot)));
+
+            //Projectile.GetComponent<ProjectileScriptRoquette>().throwDir = CamUi.transform.forward;
+            //Projectile.transform.localRotation = CamUi.transform.rotation;
+            //Projectile.GetComponent<ProjectileScriptRoquette>().LayerName = LayerMask.LayerToName(gameObject.layer);
+            //Debug.Log(LayerMask.LayerToName(gameObject.layer));
 
         }
-        else
-        {
-            if (ModelWeapon.MuzzleEffect != null)
-            {
-                GameObject MuzzleEffect = Instantiate(ModelWeapon.MuzzleEffect, ModelWeapon.MuzzleEffect.transform.position, Quaternion.identity);
-                MuzzleEffect.transform.SetParent(CamUi.transform, false);
 
-                //Rail.transform.localRotation = cam.transform.rotation;
+        //for (int i = 0; i < ModelWeapon.numberBallSprea; i++)
+        //{
 
-            }
-            for (int i = 0; i < ModelWeapon.numberBallSprea; i++)
-            {
-
-                GameObject Rail = Instantiate(Trail, CamUi.transform.position + CamUi.transform.right * 0.5f + -CamUi.transform.up * 0.4f, Quaternion.identity);
-                Calcul(ModelWeapon.AngleShoot);
-                Rail.GetComponent<TrailGun>().throwDir = direction;
-                //RandomX = Random.Range(RANGEMIN, RANGEMAX);
-                Ray ray = new Ray(CamUi.transform.position, direction);
+        //    GameObject Rail = Instantiate(Trail, CamUi.transform.position + CamUi.transform.right * 0.5f + -CamUi.transform.up * 0.4f, Quaternion.identity);
+        //    Calcul(ModelWeapon.AngleShoot);
+        //    Rail.GetComponent<TrailGun>().throwDir = direction;
+        //    //RandomX = Random.Range(RANGEMIN, RANGEMAX);
+        //    Ray ray = new Ray(CamUi.transform.position, direction);
 
 
 
-                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~(1 << LayerMask.NameToLayer("Projectile") | (1 << LayerMask.NameToLayer("Corps")))))
-                {
-                    //    if (hit.collider.tag == "Ennemis")
-                    //    {
+        //    if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~(1 << LayerMask.NameToLayer("Projectile") | (1 << LayerMask.NameToLayer("Corps")))))
+        //    {
+        //        //    if (hit.collider.tag == "Ennemis")
+        //        //    {
 
 
 
-                    //        ParticleSystem ps = Instantiate(ImpactEnnemis, hit.point, Quaternion.LookRotation(hit.normal));
+        //        //        ParticleSystem ps = Instantiate(ImpactEnnemis, hit.point, Quaternion.LookRotation(hit.normal));
 
-                    //    }
-                    //    else
-                    //    {
-                    //        ParticleSystem ps = Instantiate(ImpactHit, hit.point, Quaternion.LookRotation(hit.normal));
-                    //    }
-                }
-            }
-        }
+        //        //    }
+        //        //    else
+        //        //    {
+        //        //        ParticleSystem ps = Instantiate(ImpactHit, hit.point, Quaternion.LookRotation(hit.normal));
+        //        //    }
+        //    }
+        //}
+
 
     }
 

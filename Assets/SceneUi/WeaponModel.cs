@@ -6,14 +6,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Weapon", menuName = "New Weapon/Gun")]
 public class WeaponSo : ScriptableObject
 {
+
+
+
+    public string weaponName;
+
+    public GameObject Gun;
+
     [System.Serializable]
     public struct Tir
     {
-        public string weaponName;
-
-        public GameObject Gun;
-
-
         public int magazineSize;
 
         public float fireRate;
@@ -21,28 +23,27 @@ public class WeaponSo : ScriptableObject
 
         public int numberBallSprea;
         public int AngleShoot;
-        public bool Projectile;
+        //public bool Projectile;
         public GameObject PrefabProjectile;
-        public GameObject MuzzleEffect;
     }
 
-    public Tir[] Test;
+    public Tir[] ShootList;
 
    
-    public string weaponName;
+    //public string weaponName;
 
-    public GameObject Gun;
+    //public GameObject Gun;
 
 
-    public int magazineSize;
+    //public int magazineSize;
 
-    public float fireRate;
-    public int damages;
+    //public float fireRate;
+    //public int damages;
 
-    public int numberBallSprea;
-    public int AngleShoot;
-    public bool Projectile;
-    public GameObject PrefabProjectile;
-    public GameObject MuzzleEffect;
+    //public int numberBallSprea;
+    //public int AngleShoot;
+    //public bool Projectile;
+    //public GameObject PrefabProjectile;
+    //public GameObject MuzzleEffect;
 
 }

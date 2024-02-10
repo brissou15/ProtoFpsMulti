@@ -13,8 +13,7 @@ public class ProjectileScriptRoquette : MonoBehaviour
     [SerializeField]
     float ThrowForce;
 
-    [HideInInspector]
-    public Vector3 throwDir;
+   
 
     [SerializeField]
     bool Explode;
@@ -32,8 +31,10 @@ public class ProjectileScriptRoquette : MonoBehaviour
     void Start()
     {
         Propulse = GetComponent<Rigidbody>();
+        
+        Propulse.AddForce(transform.forward * 20, ForceMode.Impulse);
 
-        Propulse.AddForce(throwDir * ThrowForce, ForceMode.Impulse);
+        Debug.Log(transform.rotation.eulerAngles);
     }
 
     // Update is called once per frame
