@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class WallRun : MonoBehaviour
 {
+    [Header("References")]
+    //[SerializeField] private Transform orientation;
+    //[SerializeField] private PlayerMovementAdvanced pm;
+    [SerializeField] private PlayerScript player;
+    [SerializeField] private Rigidbody rb;
+
     [Header("Wallrunning")]
     [SerializeField] private LayerMask whatIsWall;
     [SerializeField] private LayerMask whatIsGround;
@@ -31,12 +37,7 @@ public class WallRun : MonoBehaviour
     private RaycastHit rightWallHit;
     private bool wallLeft;
     private bool wallRight;
-
-    [Header("References")]
-    //[SerializeField] private Transform orientation;
-    //[SerializeField] private PlayerMovementAdvanced pm;
-    [SerializeField] private PlayerScript player;
-    [SerializeField] private Rigidbody rb;
+    
 
     [Header("Exiting")]
     [SerializeField] private float exitWallTime;
@@ -60,6 +61,7 @@ public class WallRun : MonoBehaviour
     {
         StateMachine();
         checkWall();
+        InputWallRun();
     }
 
     private void FixedUpdate()
@@ -71,6 +73,26 @@ public class WallRun : MonoBehaviour
         }
     }
 
+    private void InputWallRun()
+    {
+        verticalInput = Input.GetAxis("Vertical");
+        if (!player.wallRunning)
+        {
+            horizontalInput = Input.GetAxis("Horizontal");
+        }
+        else
+        {
+            //monter et descendre sur un mur
+            upwardRunning = Input.GetKey(upwardRunkey);
+            downwardsRunning = Input.GetKey(downwardsRunkey);
+            //WallJump
+            if (Input.GetKeyDown(jumpKey))
+            {
+                WallJump();
+            }
+        }
+       
+    }
     private void checkWall()
     {
         Vector3 vectorRight = Vector3.Scale(transform.right, transform.localEulerAngles);
@@ -89,14 +111,7 @@ public class WallRun : MonoBehaviour
 
     private void StateMachine()
     {
-        verticalInput = Input.GetAxis("Vertical");
-        if (!player.wallRunning)
-        {
-            horizontalInput = Input.GetAxis("Horizontal");
-        }
-
-        upwardRunning = Input.GetKey(upwardRunkey);
-        downwardsRunning = Input.GetKey(downwardsRunkey);
+       
 
 
         // State WallRun
@@ -104,11 +119,7 @@ public class WallRun : MonoBehaviour
         {
             //le début du wall run
             StartWallRun();
-            //WallJump
-            if (Input.GetKeyDown(jumpKey))
-            {
-                WallJump();
-            }
+           
         }
         else if (exitingWall)
         {
