@@ -45,7 +45,7 @@ public class WallRun : MonoBehaviour
 
     [Header("Gravity")]
     [SerializeField] private bool useGravity;
-    private float gravityCounterForce;
+    [SerializeField] private float gravityCounterForce;
 
 
 
