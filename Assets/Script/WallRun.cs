@@ -32,16 +32,20 @@ public class WallRun : MonoBehaviour
     private bool wallLeft;
     private bool wallRight;
 
-    [Header("references")]
+    [Header("References")]
     //[SerializeField] private Transform orientation;
     //[SerializeField] private PlayerMovementAdvanced pm;
     [SerializeField] private PlayerScript player;
     [SerializeField] private Rigidbody rb;
 
-    [Header("Exiting Wall")]
-    private bool exitingWall;
+    [Header("Exiting")]
     [SerializeField] private float exitWallTime;
+    private bool exitingWall;
     private float exitWallTimer;
+
+    [Header("Gravity")]
+    [SerializeField] private bool useGravity;
+    private float gravityCounterForce;
 
 
 
@@ -135,21 +139,22 @@ public class WallRun : MonoBehaviour
     {
         player.wallRunning = true;
         Camera camera = player.m_camera;
+        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);//permet de garder la velocité et d'empêcher le perso de tomber
         if (wallLeft)
-        {
+        {            
             player.m_camera.transform.localEulerAngles = new Vector3(player.m_camera.transform.localEulerAngles.x, player.m_camera.transform.localEulerAngles.y, transform.localEulerAngles.z - leaningOnWall);
-
         }
         else if (wallRight)
-        {
+        {            
             player.m_camera.transform.localEulerAngles = new Vector3(player.m_camera.transform.localEulerAngles.x, player.m_camera.transform.localEulerAngles.y, transform.localEulerAngles.z + leaningOnWall);
         }
     }
 
     private void WallRunningMovement()
     {
-        rb.useGravity = false;
-        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);//permet de garder la velocité et d'empêcher le perso de tomber
+        //rb.useGravity = false;
+        rb.useGravity = useGravity;
+        //rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);//permet de garder la velocité et d'empêcher le perso de tomber
         Vector3 wallNormal = wallRight ? rightWallHit.normal : leftWallHit.normal;
         Vector3 wallForward = Vector3.Cross(wallNormal, transform.up);
 
@@ -167,7 +172,7 @@ public class WallRun : MonoBehaviour
         {
             rb.AddForce(-wallNormal * 100, ForceMode.Force);
         }
-        
+
 
         //Monter et descente 
         if (upwardRunning)
@@ -177,6 +182,13 @@ public class WallRun : MonoBehaviour
         if (downwardsRunning)
         {
             rb.velocity = new Vector3(rb.velocity.x, -wallClimbSpeed, rb.velocity.z);
+        }
+
+
+        //affaiblir la la gravité
+        if (useGravity)
+        {
+            rb.AddForce(Vector3.up * gravityCounterForce, ForceMode.Force);
         }
     }
 
@@ -206,5 +218,5 @@ public class WallRun : MonoBehaviour
         //add force
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         rb.AddForce(forceToApply, ForceMode.Impulse);
-    }
+    }   
 }

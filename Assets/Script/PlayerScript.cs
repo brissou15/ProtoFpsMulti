@@ -61,7 +61,7 @@ public class PlayerScript : MonoBehaviour
     }
     void jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !wallRunning)
         {
             if (m_isGrounded)
             {
@@ -120,8 +120,13 @@ public class PlayerScript : MonoBehaviour
     }
     private void OnCollisionStay(Collision collision)
     {
-        m_isGrounded = true;
-        m_canDoubleJump = true;
+        int GroundLayer = LayerMask.NameToLayer("Ground");
+        if (collision.gameObject.layer== GroundLayer)
+        {
+            m_isGrounded = true;
+            m_canDoubleJump = true;
+        }
+        
     }
     private void OnCollisionExit(Collision collision)
     {
