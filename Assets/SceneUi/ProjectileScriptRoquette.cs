@@ -31,9 +31,9 @@ public class ProjectileScriptRoquette : MonoBehaviour
     void Start()
     {
         Propulse = GetComponent<Rigidbody>();
-        
-        Propulse.AddForce(transform.forward * 20, ForceMode.Impulse);
-
+       
+        Propulse.AddForce(transform.rotation.eulerAngles * 20, ForceMode.Impulse);
+       
         Debug.Log(transform.rotation.eulerAngles);
     }
 

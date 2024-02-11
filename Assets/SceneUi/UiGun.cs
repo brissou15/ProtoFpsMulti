@@ -39,18 +39,7 @@ public class UiGun : MonoBehaviour
      
     }
 
-
-
-
-
-   
-    Vector3 Calcul(int angleRecup)
-    {
-        Vector3 machin = Random.insideUnitSphere * angleRecup;
-
-        return Quaternion.Euler(machin.x, machin.y, machin.z) * CamUi.transform.forward;
-    }
-    void ShootAndGunManager()
+ void ShootAndGunManager()
     {
         if (Gun != null)
         {
@@ -70,13 +59,16 @@ public class UiGun : MonoBehaviour
         }
     }
 
+    Vector3 Calcul(int angleRecup)
+    {
+        Vector3 machin = Random.insideUnitSphere * angleRecup;
+
+        return Quaternion.Euler(machin.x, machin.y, machin.z) * CamUi.transform.forward;
+    }
+   
+
     private void shooting(WeaponSo ModelWeapon , int typeTir)
     {
-
-        //Grenade grenade = Instantiate(GrenadePreFab, transform.position + transform.forward + transform.up, Quaternion.identity);
-
-        //grenade.throwDir = fpsCamera.transform.forward;
-
         for (int i = 0; i < ModelWeapon.ShootList[typeTir].numberBallSprea; i++)
         {
 
