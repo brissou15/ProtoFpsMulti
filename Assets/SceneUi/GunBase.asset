@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: 
   Gun: {fileID: 7875756403082022123, guid: b90bb76ae83d29e45a14cfd04ea94f38, type: 3}
+  magazineSize: 1000
   ShootList:
-  - magazineSize: 0
-    fireRate: 7.52
+  - fireRate: 7.52
     damages: 0
     numberBallSprea: 1
     AngleShoot: 4

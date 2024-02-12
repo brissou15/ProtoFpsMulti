@@ -36,6 +36,7 @@ public class Dummy : MonoBehaviour
             GetComponent<Rigidbody>().isKinematic = false;
             GetComponent<Rigidbody>().AddForce(transform.forward, ForceMode.Impulse);
             dead = true;
+            RoundManager.instance.addScore(0, 1);
         }
 
 

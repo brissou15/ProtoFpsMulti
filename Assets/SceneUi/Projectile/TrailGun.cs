@@ -48,7 +48,7 @@ public class TrailGun : MonoBehaviour
     {
         //if (other.gameObject.layer != LayerMask.NameToLayer("Player"))
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
 
     }
