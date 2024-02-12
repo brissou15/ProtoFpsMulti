@@ -59,18 +59,22 @@ public class PlayerScript : MonoBehaviour
     }
     private void BaseMovement()
     {
-        if(!wallRunning)
-        {
-            Vector3 inputs = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-            Vector3 Velocity = transform.rotation * inputs * m_baseSpeed;
-            m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
-        }
-        else
-        {
-            Vector3 inputs = new Vector3(Input.GetAxis("Horizontal"), 0f, 0);
-            Vector3 Velocity = transform.rotation * inputs * m_baseSpeed;
-            m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
-        }        
+        Vector3 inputs = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        Vector3 Velocity = transform.rotation * inputs * m_baseSpeed;
+        m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
+
+        //if (!wallRunning)
+        //{
+        //    Vector3 inputs = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        //    Vector3 Velocity = transform.rotation * inputs * m_baseSpeed;
+        //    m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
+        //}
+        //else
+        //{
+        //    Vector3 inputs = new Vector3(Input.GetAxis("Horizontal"), 0f, 0);
+        //    Vector3 Velocity = transform.rotation * inputs * m_baseSpeed;
+        //    m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
+        //}        
     }
     void jump()
     {
