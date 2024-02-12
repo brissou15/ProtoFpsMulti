@@ -11,8 +11,8 @@ public class PlayerScript : MonoBehaviour
     public Camera m_camera;
 
     [Header("Health")]
-    [SerializeField] private float m_maxHealth = 10;
-    public float m_currentHealth;
+    public int m_maxHealth = 10;
+    public int m_currentHealth;
 
     [Header("Speeds")]
     [SerializeField] private float m_desiredSpeed;
