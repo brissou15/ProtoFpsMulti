@@ -99,7 +99,7 @@ public class WallRun : MonoBehaviour
         Vector3 vectorLeft = Vector3.Scale(-transform.right, transform.localEulerAngles);
         wallRight = Physics.Raycast(transform.position, transform.right, out rightWallHit, wallCheckDistance, whatIsWall);
         wallLeft = Physics.Raycast(transform.position, -transform.right, out leftWallHit, wallCheckDistance, whatIsWall);
-        Debug.DrawRay(transform.position, transform.right, Color.green);
+        Debug.DrawRay(transform.position, transform.right,Color.green);
         Debug.DrawRay(transform.position, -transform.right, Color.green);
     }
 
