@@ -10,6 +10,10 @@ public class PlayerScript : MonoBehaviour
     public Rigidbody m_rb;
     public Camera m_camera;
 
+    [Header("Health")]
+    [SerializeField] private float m_maxHealth = 10;
+    public float m_currentHealth;
+
     [Header("Speeds")]
     [SerializeField] private float m_desiredSpeed;
     [SerializeField] private float m_baseSpeed;
@@ -41,6 +45,7 @@ public class PlayerScript : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         m_desiredSpeed = m_baseSpeed;
+        m_currentHealth = m_maxHealth;
     }
 
     // Update is called once per frame
@@ -62,6 +67,7 @@ public class PlayerScript : MonoBehaviour
         Vector3 inputs = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         Vector3 Velocity = transform.rotation * inputs * m_baseSpeed;
         m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
+        //voir pout utiliser un add force
 
         //if (!wallRunning)
         //{
