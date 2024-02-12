@@ -32,9 +32,9 @@ public class ProjectileScriptRoquette : MonoBehaviour
     {
         Propulse = GetComponent<Rigidbody>();
        
-        Propulse.AddForce(transform.rotation.eulerAngles * 20, ForceMode.Impulse);
+        Propulse.AddForce(transform.forward * 20, ForceMode.Impulse);
        
-        Debug.Log(transform.rotation.eulerAngles);
+        Debug.Log(transform.forward);
     }
 
     // Update is called once per frame

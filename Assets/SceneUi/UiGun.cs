@@ -74,7 +74,7 @@ public class UiGun : MonoBehaviour
 
             Debug.Log(Calcul(ModelWeapon.ShootList[typeTir].AngleShoot) + "NoProj");
             GameObject Projectile = Instantiate(ModelWeapon.ShootList[typeTir].PrefabProjectile, CamUi.transform.position + CamUi.transform.right * 0.3f + -CamUi.transform.up * 0.2f,
-                Quaternion.Euler(Calcul(ModelWeapon.ShootList[typeTir].AngleShoot)));
+               CamUi.transform.rotation);
 
             //Projectile.GetComponent<ProjectileScriptRoquette>().throwDir = CamUi.transform.forward;
             //Projectile.transform.localRotation = CamUi.transform.rotation;
