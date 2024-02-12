@@ -18,8 +18,8 @@ MonoBehaviour:
   - magazineSize: 0
     fireRate: 3.92
     damages: 0
-    numberBallSprea: 10
-    AngleShoot: 12
+    numberBallSprea: 1
+    AngleShoot: 1
     PrefabProjectile: {fileID: 3901717362915873297, guid: 7af3769387a64f843bfa832ba9185abc, type: 3}
   - magazineSize: 0
     fireRate: 2.23
