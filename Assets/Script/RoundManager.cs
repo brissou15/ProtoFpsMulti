@@ -9,6 +9,7 @@ public class RoundManager : MonoBehaviour
     public static RoundManager instance { get; private set; }
     public int[] scores = new int[2];
     public int maxScore;
+    public float roundTimer = 120;
     public void Awake()
     {
         if(instance==null)
@@ -29,7 +30,7 @@ public class RoundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        roundTimer -=Time.deltaTime;
     }
     private void updateScore()
     {
