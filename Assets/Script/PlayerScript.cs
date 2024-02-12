@@ -9,6 +9,7 @@ public class PlayerScript : MonoBehaviour
     [Header("References")]
     public Rigidbody m_rb;
     public Camera m_camera;
+    public int m_team;
 
     [Header("Health")]
     public int m_maxHealth = 10;
@@ -26,19 +27,17 @@ public class PlayerScript : MonoBehaviour
     private bool m_isGrounded;
     private bool m_canDoubleJump;
 
-    private float rotationY = 0f;
+    private float m_rotationY = 0f;
 
     [Header("States")]
-    public MovementState state;
-    public bool sliding;
-    public bool crouching;
-    public bool wallRunning;
+    public MovementState e_state;
+    public bool m_sliding;
+    public bool m_crouching;
+    public bool m_wallRunning;
 
     [Header("Slope Handling")]
-    [SerializeField] private float maxSlopAngle;
+    [SerializeField] private float m_maxSlopAngle;
     private RaycastHit slopeHit;
-
-
 
     // Start is called before the first frame update
     void Start()
@@ -65,26 +64,13 @@ public class PlayerScript : MonoBehaviour
     private void BaseMovement()
     {
         Vector3 inputs = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-        Vector3 Velocity = transform.rotation * inputs * m_baseSpeed;
+        Vector3 Velocity = transform.rotation * inputs * m_desiredSpeed;
         m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
-        //voir pout utiliser un add force
-
-        //if (!wallRunning)
-        //{
-        //    Vector3 inputs = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-        //    Vector3 Velocity = transform.rotation * inputs * m_baseSpeed;
-        //    m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
-        //}
-        //else
-        //{
-        //    Vector3 inputs = new Vector3(Input.GetAxis("Horizontal"), 0f, 0);
-        //    Vector3 Velocity = transform.rotation * inputs * m_baseSpeed;
-        //    m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
-        //}        
+        //voir pout utiliser un add force au lieu de la velocité 
     }
     void jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !wallRunning)
+        if (Input.GetKeyDown(KeyCode.Space) && !m_wallRunning)
         {
             if (m_isGrounded)
             {
@@ -102,24 +88,24 @@ public class PlayerScript : MonoBehaviour
         if (Cursor.lockState == CursorLockMode.Locked)
         {
             float rotationX = transform.rotation.eulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
-            rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
+            m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
             //float rotationY = transform.rotation.eulerAngles.x + Input.GetAxis("Mouse Y") * m_sensitivityY;
-            rotationY = Mathf.Clamp(rotationY, m_minY, m_maxY);
+            m_rotationY = Mathf.Clamp(m_rotationY, m_minY, m_maxY);
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, rotationX, transform.eulerAngles.z);
-            m_camera.transform.localEulerAngles = new Vector3(-rotationY, 0, m_camera.transform.localEulerAngles.z);
+            m_camera.transform.localEulerAngles = new Vector3(-m_rotationY, 0, m_camera.transform.localEulerAngles.z);
         }
     }
 
     void stateManager()
     {
-        if (wallRunning)
+        if (m_wallRunning)
         {
             m_desiredSpeed = m_wallRunSpeed;
-            state = MovementState.wallrunning;
+            e_state = MovementState.wallrunning;
         }
         else
         {
-            state = MovementState.walking;
+            e_state = MovementState.walking;
             m_desiredSpeed = m_baseSpeed;
         }
     }
@@ -162,7 +148,7 @@ public class PlayerScript : MonoBehaviour
         {
             float angle = Vector3.Angle(Vector3.up,slopeHit.normal);
             Debug.Log(angle);
-            return Mathf.Abs(angle ) < maxSlopAngle && angle != 0;
+            return Mathf.Abs(angle ) < m_maxSlopAngle && angle != 0;
         }
         return false;
     }
