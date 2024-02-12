@@ -111,9 +111,6 @@ public class WallRun : MonoBehaviour
 
     private void StateMachine()
     {
-       
-
-
         // State WallRun
         if ((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && wallRunTimer < maxWallRunTime && !exitingWall)
         {

@@ -25,7 +25,7 @@ public class Sliding : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        startYScale = transform.localScale.y;
+        startYScale = transform.localScale.y;        
     }
     private void FixedUpdate()
     {
@@ -44,15 +44,27 @@ public class Sliding : MonoBehaviour
     {
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
-
-        if (Input.GetKeyDown(slideKey) && (horizontalInput != 0 || verticalInput != 0) && !player.m_wallRunning)
+        bool canSlide = false;
+        if(!sliding)
+        {
+            if (player.controler == CONTROLER.CLAVIER)
+            {
+                canSlide = Input.GetKeyDown(slideKey);
+            }
+            else
+            {
+                canSlide = player.MyControler.buttonEast.isPressed;
+            }
+        }
+        
+        if (canSlide && (horizontalInput != 0 || verticalInput != 0) && !player.m_wallRunning)
         {
             StartSlide();
         }
-        if (Input.GetKeyUp(slideKey) && sliding)
-        {
-            StopSlide();
-        }
+        //if (!canSlide && sliding)
+        //{
+        //    StopSlide();
+        //}
     }
 
     private void StartSlide()
