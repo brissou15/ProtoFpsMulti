@@ -11,6 +11,10 @@ public class UiGun : MonoBehaviour
     [SerializeField]
     public List<WeaponSo> GunList = new List<WeaponSo>();
 
+
+     List<int> AmmoReserve = new List<int>();
+   public int currentAmmo = 0;
+    public int MaxAmmo = 0;
     GameObject Gun = null;
 
     int GunEquipedId = 0;
@@ -29,6 +33,7 @@ public class UiGun : MonoBehaviour
             Gun = Instantiate(GunList[GunEquipedId].Gun);
             Gun.GetComponent<GunScript>().GunEquiped = true;
             Gun.transform.SetParent(CamUi.transform, false);
+            AmmoReserve.Add(GunList[GunEquipedId].magazineSize);
         }
     }
 
@@ -36,9 +41,10 @@ public class UiGun : MonoBehaviour
     {
         TimerShoot += Time.deltaTime;
         ShootAndGunManager();
+      
 
     }
-
+    
     void ShootAndGunManager()
     {
         if (Gun != null)
@@ -60,13 +66,15 @@ public class UiGun : MonoBehaviour
                 CurrentWeaponD = Gun.GetComponent<GunScript>().weaponDetaille;
 
                 // Debug.Log(CurrentWeaponAnim.GetFloat("TimerShootOui"));
-                if (typeShootTmp < CurrentWeaponD.ShootList.Length)
+                if (typeShootTmp < CurrentWeaponD.ShootList.Length && AmmoReserve[GunEquipedId] >0 )
                 {
 
                     if (TimerShoot >= 1 / CurrentWeaponD.ShootList[typeShootTmp].fireRate)
                     {
                         shooting(CurrentWeaponD, typeShootTmp);
+                        --AmmoReserve[GunEquipedId];
                         TimerShoot = 0;
+
                     }
                 }
             }
@@ -89,42 +97,10 @@ public class UiGun : MonoBehaviour
             GameObject Projectile = Instantiate(ModelWeapon.ShootList[typeTir].PrefabProjectile, CamUi.transform.position + CamUi.transform.right * 0.1f + -CamUi.transform.up * 0.2f,
                Calcul(ModelWeapon.ShootList[typeTir].AngleShoot));
 
-            //Projectile.GetComponent<ProjectileScriptRoquette>().throwDir = CamUi.transform.forward;
-            //Projectile.transform.localRotation = CamUi.transform.rotation;
-            //Projectile.GetComponent<ProjectileScriptRoquette>().LayerName = LayerMask.LayerToName(gameObject.layer);
-            //Debug.Log(LayerMask.LayerToName(gameObject.layer));
 
         }
 
-        //for (int i = 0; i < ModelWeapon.numberBallSprea; i++)
-        //{
-
-        //    GameObject Rail = Instantiate(Trail, CamUi.transform.position + CamUi.transform.right * 0.5f + -CamUi.transform.up * 0.4f, Quaternion.identity);
-        //    Calcul(ModelWeapon.AngleShoot);
-        //    Rail.GetComponent<TrailGun>().throwDir = direction;
-        //    //RandomX = Random.Range(RANGEMIN, RANGEMAX);
-        //    Ray ray = new Ray(CamUi.transform.position, direction);
-
-
-
-        //    if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~(1 << LayerMask.NameToLayer("Projectile") | (1 << LayerMask.NameToLayer("Corps")))))
-        //    {
-        //        //    if (hit.collider.tag == "Ennemis")
-        //        //    {
-
-
-
-        //        //        ParticleSystem ps = Instantiate(ImpactEnnemis, hit.point, Quaternion.LookRotation(hit.normal));
-
-        //        //    }
-        //        //    else
-        //        //    {
-        //        //        ParticleSystem ps = Instantiate(ImpactHit, hit.point, Quaternion.LookRotation(hit.normal));
-        //        //    }
-        //    }
-        //}
-
-
+       
     }
 
     void SwapGunManager()
@@ -153,6 +129,7 @@ public class UiGun : MonoBehaviour
         //CurrentWeaponAnim = Gun.GetComponent<GunScript>().AnimeGun;
 
         CurrentWeaponD = Gun.GetComponent<GunScript>().weaponDetaille;
+       
 
     }
     void TakingGunManager()
@@ -165,6 +142,8 @@ public class UiGun : MonoBehaviour
         //CurrentWeaponAnim = Gun.GetComponent<GunScript>().AnimeGun;
         CurrentWeaponD = Gun.GetComponent<GunScript>().weaponDetaille;
         GunEquipedId++;
+        AmmoReserve.Add(GunList[GunEquipedId].magazineSize);
+       
     }
 
     // Update is called once per frame
@@ -177,6 +156,8 @@ public class UiGun : MonoBehaviour
         {
             SwapGunManager();
         }
+        MaxAmmo = GunList[GunEquipedId].magazineSize;
+        currentAmmo = AmmoReserve[GunEquipedId];
     }
     private void OnTriggerEnter(Collider other)
     {

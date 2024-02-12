@@ -12,11 +12,11 @@ public class WeaponSo : ScriptableObject
     public string weaponName;
 
     public GameObject Gun;
-
+ public int magazineSize;
     [System.Serializable]
     public struct Tir
     {
-        public int magazineSize;
+       
 
         public float fireRate;
         public int damages;

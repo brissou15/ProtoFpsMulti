@@ -8,6 +8,7 @@ public class UiScript : MonoBehaviour
 {
     [Header("Debug")]
     [SerializeField] private PlayerScript player;
+    [SerializeField] private UiGun playerUiGun;
     [SerializeField] private TMP_Text speedText;
     [SerializeField] private TMP_Text angleText;
 
@@ -39,6 +40,7 @@ public class UiScript : MonoBehaviour
         debugUI();
         UpdateHealthBar();
         updateScore();
+        updateAmmo();
     }
 
     private void debugUI()
@@ -56,7 +58,7 @@ public class UiScript : MonoBehaviour
 
     private void updateAmmo()
     {
-
+        AmmoText.text = ((int)playerUiGun.currentAmmo).ToString() + "/" + ((int)playerUiGun.MaxAmmo).ToString();
     }
     private void updateScore()
     {

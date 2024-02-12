@@ -14,15 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: 
   Gun: {fileID: 7022275962840609224, guid: 054a5314c4befd74aa32e727fde40d95, type: 3}
+  magazineSize: 10
   ShootList:
-  - magazineSize: 0
-    fireRate: 1.78
+  - fireRate: 1.78
     damages: 0
     numberBallSprea: 1
-    AngleShoot: 4
+    AngleShoot: 1
     PrefabProjectile: {fileID: 3901717362915873297, guid: c25f3acb5a069e44eb3c3adfc0be370d, type: 3}
-  - magazineSize: 0
-    fireRate: 1.78
+  - fireRate: 1.78
     damages: 0
     numberBallSprea: 1
     AngleShoot: 1
