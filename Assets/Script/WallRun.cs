@@ -66,7 +66,7 @@ public class WallRun : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (player.wallRunning)
+        if (player.m_wallRunning)
         {
             wallRunTimer += Time.fixedDeltaTime;
             WallRunningMovement();
@@ -76,7 +76,7 @@ public class WallRun : MonoBehaviour
     private void InputWallRun()
     {
         verticalInput = Input.GetAxis("Vertical");
-        if (!player.wallRunning)
+        if (!player.m_wallRunning)
         {
             horizontalInput = Input.GetAxis("Horizontal");
         }
@@ -123,7 +123,7 @@ public class WallRun : MonoBehaviour
         }
         else if (exitingWall)
         {
-            if (player.wallRunning)
+            if (player.m_wallRunning)
             {
                 StopWallRun();
             }
@@ -141,14 +141,14 @@ public class WallRun : MonoBehaviour
         }
         else
         {
-            if (player.wallRunning)
+            if (player.m_wallRunning)
                 StopWallRun();
         }
     }
 
     private void StartWallRun()
     {
-        player.wallRunning = true;
+        player.m_wallRunning = true;
         Camera camera = player.m_camera;
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);//permet de garder la velocité et d'empêcher le perso de tomber
         if (wallLeft)
@@ -205,7 +205,7 @@ public class WallRun : MonoBehaviour
 
     private void StopWallRun()
     {
-        player.wallRunning = false;
+        player.m_wallRunning = false;
         rb.useGravity = true;
         wallRunTimer = 0;
         player.m_camera.transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 0, 0);
