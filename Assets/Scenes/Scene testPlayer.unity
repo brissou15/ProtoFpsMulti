@@ -2532,6 +2532,9 @@ MonoBehaviour:
   CamUi: {fileID: 1005482296}
   GunList:
   - {fileID: 11400000, guid: fca14c80cb03eb04d8ad5bc670150820, type: 2}
+  player: {fileID: 756493667}
+  currentAmmo: 0
+  MaxAmmo: 0
   Trail: {fileID: 0}
 --- !u!1 &874768018
 GameObject:
@@ -2572,6 +2575,9 @@ MonoBehaviour:
   CamUi: {fileID: 215349073}
   GunList:
   - {fileID: 11400000, guid: fca14c80cb03eb04d8ad5bc670150820, type: 2}
+  player: {fileID: 874768022}
+  currentAmmo: 0
+  MaxAmmo: 0
   Trail: {fileID: 0}
 --- !u!114 &874768020
 MonoBehaviour:
@@ -3972,12 +3978,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 756493667}
+  playerUiGun: {fileID: 756493675}
   speedText: {fileID: 504901830}
   angleText: {fileID: 0}
   lifeBar: {fileID: 1543318016}
   lifeBackground: {fileID: 1346774340}
   lifeText: {fileID: 1118816933}
-  AmmoText: {fileID: 0}
+  AmmoText: {fileID: 70223486}
   blueTeamBar: {fileID: 444351102}
   redTeamBar: {fileID: 1784659890}
   textBlueTeam: {fileID: 1067652787}

@@ -10,6 +10,7 @@ public class UiGun : MonoBehaviour
 
     [SerializeField]
     public List<WeaponSo> GunList = new List<WeaponSo>();
+    [SerializeField] private PlayerScript player;
 
 
      List<int> AmmoReserve = new List<int>();
@@ -25,6 +26,7 @@ public class UiGun : MonoBehaviour
     GameObject Trail;
 
     WeaponSo CurrentWeaponD;
+    float keyTimer = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +42,7 @@ public class UiGun : MonoBehaviour
     void Update()
     {
         TimerShoot += Time.deltaTime;
+        keyTimer += Time.deltaTime;
         ShootAndGunManager();
       
 
@@ -50,34 +53,65 @@ public class UiGun : MonoBehaviour
         if (Gun != null)
         {
             int typeShootTmp;
-
-            if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+            if(player.controler == CONTROLER.CLAVIER)
             {
-
-                if (Input.GetMouseButton(0))
-                {
-                    typeShootTmp = 0;
-                }
-                else
-                {
-                    typeShootTmp = 1;
-                }
-
-                CurrentWeaponD = Gun.GetComponent<GunScript>().weaponDetaille;
-
-                // Debug.Log(CurrentWeaponAnim.GetFloat("TimerShootOui"));
-                if (typeShootTmp < CurrentWeaponD.ShootList.Length && AmmoReserve[GunEquipedId] >0 )
+                if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
                 {
 
-                    if (TimerShoot >= 1 / CurrentWeaponD.ShootList[typeShootTmp].fireRate)
+                    if (Input.GetMouseButton(0))
                     {
-                        shooting(CurrentWeaponD, typeShootTmp);
-                        --AmmoReserve[GunEquipedId];
-                        TimerShoot = 0;
+                        typeShootTmp = 0;
+                    }
+                    else
+                    {
+                        typeShootTmp = 1;
+                    }
 
+                    CurrentWeaponD = Gun.GetComponent<GunScript>().weaponDetaille;
+
+                    // Debug.Log(CurrentWeaponAnim.GetFloat("TimerShootOui"));
+                    if (typeShootTmp < CurrentWeaponD.ShootList.Length && AmmoReserve[GunEquipedId] > 0)
+                    {
+
+                        if (TimerShoot >= 1 / CurrentWeaponD.ShootList[typeShootTmp].fireRate)
+                        {
+                            shooting(CurrentWeaponD, typeShootTmp);
+                            --AmmoReserve[GunEquipedId];
+                            TimerShoot = 0;
+
+                        }
                     }
                 }
             }
+            else
+            {
+                if(player.MyControler.leftTrigger.isPressed|| player.MyControler.rightTrigger.isPressed)
+                {
+                    if (player.MyControler.rightTrigger.isPressed)
+                    {
+                        typeShootTmp = 0;
+                    }
+                    else
+                    {
+                        typeShootTmp = 1;
+                    }
+
+                    CurrentWeaponD = Gun.GetComponent<GunScript>().weaponDetaille;
+
+                    // Debug.Log(CurrentWeaponAnim.GetFloat("TimerShootOui"));
+                    if (typeShootTmp < CurrentWeaponD.ShootList.Length && AmmoReserve[GunEquipedId] > 0)
+                    {
+
+                        if (TimerShoot >= 1 / CurrentWeaponD.ShootList[typeShootTmp].fireRate)
+                        {
+                            shooting(CurrentWeaponD, typeShootTmp);
+                            --AmmoReserve[GunEquipedId];
+                            TimerShoot = 0;
+
+                        }
+                    }
+                }
+            }            
         }
     }
 
@@ -105,24 +139,47 @@ public class UiGun : MonoBehaviour
 
     void SwapGunManager()
     {
-
         Destroy(Gun);
-        if (Input.mouseScrollDelta.y > 0.1)
+        if (player.controler == CONTROLER.CLAVIER)
         {
-            GunEquipedId++;
-            if (GunEquipedId >= GunList.Count)
+            if (Input.mouseScrollDelta.y > 0.1)
             {
-                GunEquipedId = 0;
+                GunEquipedId++;
+                if (GunEquipedId >= GunList.Count)
+                {
+                    GunEquipedId = 0;
+                }
+            }
+            if (Input.mouseScrollDelta.y < -0.1)
+            {
+                GunEquipedId--;
+                if (GunEquipedId < 0)
+                {
+                    GunEquipedId = GunList.Count - 1;
+                }
             }
         }
-        if (Input.mouseScrollDelta.y < -0.1)
+        else
         {
-            GunEquipedId--;
-            if (GunEquipedId < 0)
+            if (player.MyControler.buttonNorth.isPressed && keyTimer>0.2)
             {
-                GunEquipedId = GunList.Count - 1;
+                GunEquipedId++;
+                if (GunEquipedId >= GunList.Count)
+                {
+                    GunEquipedId = 0;
+                }
+                keyTimer = 0;
             }
+            //if (player.MyControler.buttonNorth.isPressed)
+            //{
+            //    GunEquipedId--;
+            //    if (GunEquipedId < 0)
+            //    {
+            //        GunEquipedId = GunList.Count - 1;
+            //    }
+            //}
         }
+        
         Gun = Instantiate(GunList[GunEquipedId].Gun);
         Gun.GetComponent<GunScript>().GunEquiped = true;
         Gun.transform.SetParent(CamUi.transform, false);
@@ -154,8 +211,8 @@ public class UiGun : MonoBehaviour
 
         if (Input.mouseScrollDelta.y != 0 && GunList.Count > 1)
         {
-            SwapGunManager();
         }
+            SwapGunManager();
         MaxAmmo = GunList[GunEquipedId].magazineSize;
         currentAmmo = AmmoReserve[GunEquipedId];
     }
