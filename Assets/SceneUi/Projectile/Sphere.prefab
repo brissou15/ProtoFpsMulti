@@ -241,7 +241,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -258,9 +258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d6475210abddc94db57ee38a13455e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Particule: {fileID: 0}
-  ThrowForce: 49.57
-  Explode: 0
-  explosionRadius: 0
-  explosionForce: 0
+  Trail: {fileID: 3901717362915873297, guid: 7af3769387a64f843bfa832ba9185abc, type: 3}
+  ThrowForce: 47
   LayerName: 

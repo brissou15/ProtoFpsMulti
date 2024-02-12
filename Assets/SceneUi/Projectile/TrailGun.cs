@@ -10,8 +10,7 @@ public class TrailGun : MonoBehaviour
     
     float ThrowForce = 700;
 
-    [HideInInspector]
-    public Vector3 throwDir;
+
 
 
     // Start is called before the first frame update
@@ -19,7 +18,7 @@ public class TrailGun : MonoBehaviour
     {
         Propulse = GetComponent<Rigidbody>();
 
-        Propulse.AddForce(throwDir * ThrowForce, ForceMode.Impulse);
+        Propulse.AddForce(transform.forward * ThrowForce, ForceMode.Impulse);
     }
 
     // Update is called once per frame

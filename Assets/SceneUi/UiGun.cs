@@ -36,45 +36,58 @@ public class UiGun : MonoBehaviour
     {
         TimerShoot += Time.deltaTime;
         ShootAndGunManager();
-     
+
     }
 
- void ShootAndGunManager()
+    void ShootAndGunManager()
     {
         if (Gun != null)
         {
-            if (Input.GetMouseButton(0))
+            int typeShootTmp;
+
+            if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
             {
+
+                if (Input.GetMouseButton(0))
+                {
+                    typeShootTmp = 0;
+                }
+                else
+                {
+                    typeShootTmp = 1;
+                }
 
                 CurrentWeaponD = Gun.GetComponent<GunScript>().weaponDetaille;
 
                 // Debug.Log(CurrentWeaponAnim.GetFloat("TimerShootOui"));
-
-                if (TimerShoot >= 1 / CurrentWeaponD.ShootList[0].fireRate)
+                if (typeShootTmp < CurrentWeaponD.ShootList.Length)
                 {
-                    shooting(CurrentWeaponD , 0);
-                    TimerShoot = 0;
+
+                    if (TimerShoot >= 1 / CurrentWeaponD.ShootList[typeShootTmp].fireRate)
+                    {
+                        shooting(CurrentWeaponD, typeShootTmp);
+                        TimerShoot = 0;
+                    }
                 }
             }
         }
     }
 
-    Vector3 Calcul(int angleRecup)
+    Quaternion Calcul(int angleRecup)
     {
         Vector3 machin = Random.insideUnitSphere * angleRecup;
 
-        return Quaternion.Euler(machin.x, machin.y, machin.z) * CamUi.transform.forward;
+        return Quaternion.Euler(machin.x, machin.y, machin.z) * CamUi.transform.rotation;
     }
-   
 
-    private void shooting(WeaponSo ModelWeapon , int typeTir)
+
+    private void shooting(WeaponSo ModelWeapon, int typeTir)
     {
         for (int i = 0; i < ModelWeapon.ShootList[typeTir].numberBallSprea; i++)
         {
 
-            Debug.Log(Calcul(ModelWeapon.ShootList[typeTir].AngleShoot) + "NoProj");
-            GameObject Projectile = Instantiate(ModelWeapon.ShootList[typeTir].PrefabProjectile, CamUi.transform.position + CamUi.transform.right * 0.3f + -CamUi.transform.up * 0.2f,
-               CamUi.transform.rotation);
+            GameObject Projectile = Instantiate(ModelWeapon.ShootList[typeTir].PrefabProjectile, CamUi.transform.position + CamUi.transform.right * 0.1f + -CamUi.transform.up * 0.2f,
+               Calcul(ModelWeapon.ShootList[typeTir].AngleShoot));
 
             //Projectile.GetComponent<ProjectileScriptRoquette>().throwDir = CamUi.transform.forward;
             //Projectile.transform.localRotation = CamUi.transform.rotation;

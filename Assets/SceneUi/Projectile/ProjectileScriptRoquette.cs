@@ -8,21 +8,11 @@ public class ProjectileScriptRoquette : MonoBehaviour
     Rigidbody Propulse;
 
     [SerializeField]
-    ParticleSystem Particule;
+    GameObject Trail;
 
     [SerializeField]
     float ThrowForce;
 
-   
-
-    [SerializeField]
-    bool Explode;
-
-    [SerializeField]
-    float explosionRadius;
-
-    [SerializeField]
-    float explosionForce;
 
     [HideInInspector]
     public string LayerName;
@@ -32,9 +22,9 @@ public class ProjectileScriptRoquette : MonoBehaviour
     {
         Propulse = GetComponent<Rigidbody>();
        
-        Propulse.AddForce(transform.forward * 20, ForceMode.Impulse);
+        Propulse.AddForce(transform.forward * ThrowForce, ForceMode.Impulse);
        
-        Debug.Log(transform.forward);
+     
     }
 
     // Update is called once per frame
@@ -76,8 +66,29 @@ public class ProjectileScriptRoquette : MonoBehaviour
     }
     private void LateUpdate()
     {
-        Destroy(gameObject,5);
+        Destroy(gameObject,0.2f);
+    }
+    Quaternion Calcul(int angleRecup)
+    {
+        Vector3 machin = Random.insideUnitSphere * angleRecup;
+
+        return Quaternion.Euler(machin.x, machin.y, machin.z) * transform.rotation;
     }
 
+    private void OnDestroy()
+    {
+        for (int i = 0; i < 20; i++)
+        {
+
+            GameObject Projectile = Instantiate(Trail, transform.position,
+               Calcul(15));
+
+            //Projectile.GetComponent<ProjectileScriptRoquette>().throwDir = CamUi.transform.forward;
+            //Projectile.transform.localRotation = CamUi.transform.rotation;
+            //Projectile.GetComponent<ProjectileScriptRoquette>().LayerName = LayerMask.LayerToName(gameObject.layer);
+            //Debug.Log(LayerMask.LayerToName(gameObject.layer));
+
+        }
+    }
 
 }
