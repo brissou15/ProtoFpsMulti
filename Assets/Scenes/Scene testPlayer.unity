@@ -3540,7 +3540,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scores: 0000000000000000
   maxScore: 10
-  roundTimer: 60
+  roundTimer: 120
 --- !u!1001 &1005482294
 PrefabInstance:
   m_ObjectHideFlags: 0

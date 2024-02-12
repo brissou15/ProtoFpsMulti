@@ -70,6 +70,21 @@ public class UiScript : MonoBehaviour
         textRedTeam.text = RoundManager.instance.scores[1].ToString();
 
         //textTimer.text = RoundManager.instance.roundTimer.ToString();
-        textTimer.text = RoundManager.instance.roundTimer.ToString();
+        int min = toMin(RoundManager.instance.roundTimer);
+        int sec = toSecond(RoundManager.instance.roundTimer);
+        textTimer.text = min.ToString()+":"+sec.ToString();
+    }
+
+    public int toMin(float _time)
+    {
+        return (int)_time / 60;
+    }
+    public int toSecond(float _time)
+    {
+        return (int)_time % 60;
+    }
+    public float toMiliSec(float _time)
+    {
+        return (_time % 1) * 1000;
     }
 }
