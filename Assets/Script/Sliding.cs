@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Sliding : MonoBehaviour
 {
-    [Header("References")]    
+    [Header("References")]
     [SerializeField] private PlayerScript player;
     [SerializeField] private Rigidbody rb;
-   
+
 
     [Header("Sliding")]
     [SerializeField] private float maxSlidingTime;
@@ -45,7 +45,7 @@ public class Sliding : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
 
-        if (Input.GetKeyDown(slideKey) && (horizontalInput != 0 || verticalInput != 0))
+        if (Input.GetKeyDown(slideKey) && (horizontalInput != 0 || verticalInput != 0) && !player.wallRunning)
         {
             StartSlide();
         }
@@ -68,8 +68,11 @@ public class Sliding : MonoBehaviour
     {
         Vector3 inputDirection = transform.forward * verticalInput + transform.right * horizontalInput;
         rb.AddForce(inputDirection.normalized * slideForce, ForceMode.Force);
-        slideTimer += Time.deltaTime;
-        if(slideTimer >= maxSlidingTime)
+        if (!player.OnSLope())
+        {
+            slideTimer += Time.deltaTime;
+        }
+        if (slideTimer >= maxSlidingTime)
         {
             StopSlide();
             slideTimer = 0;

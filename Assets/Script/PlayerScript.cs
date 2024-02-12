@@ -6,12 +6,15 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    [SerializeField] private Rigidbody m_rb;
+    [Header("References")]
+    public Rigidbody m_rb;
+    public Camera m_camera;
+
+    [Header("Speeds")]
     [SerializeField] private float m_desiredSpeed;
     [SerializeField] private float m_baseSpeed;
     [SerializeField] private float m_wallRunSpeed;
     [SerializeField] private float m_jumpForce;
-    public Camera m_camera;
     [SerializeField] private float m_sensitivityX;
     [SerializeField] private float m_sensitivityY;
     [SerializeField] private float m_minY = -80f;
@@ -21,11 +24,15 @@ public class PlayerScript : MonoBehaviour
 
     private float rotationY = 0f;
 
+    [Header("States")]
     public MovementState state;
-
     public bool sliding;
     public bool crouching;
     public bool wallRunning;
+
+    [Header("Slope Handling")]
+    [SerializeField] private float maxSlopAngle;
+    private RaycastHit slopeHit;
 
 
 
@@ -47,17 +54,23 @@ public class PlayerScript : MonoBehaviour
 
     void UpdateMovement()
     {
-        if (!wallRunning)
-        {
-        }
         BaseMovement();
         jump();
     }
     private void BaseMovement()
     {
-        Vector3 inputs = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-        Vector3 Velocity = transform.rotation * inputs * m_baseSpeed;
-        m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
+        if(!wallRunning)
+        {
+            Vector3 inputs = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+            Vector3 Velocity = transform.rotation * inputs * m_baseSpeed;
+            m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
+        }
+        else
+        {
+            Vector3 inputs = new Vector3(Input.GetAxis("Horizontal"), 0f, 0);
+            Vector3 Velocity = transform.rotation * inputs * m_baseSpeed;
+            m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
+        }        
     }
     void jump()
     {
@@ -131,6 +144,23 @@ public class PlayerScript : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
         m_isGrounded = false;
+    }
+
+    public bool OnSLope()
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, transform.lossyScale.y * 0.5f + 0.3f))
+        {
+            float angle = Vector3.Angle(Vector3.up,slopeHit.normal);
+            Debug.Log(angle);
+            return Mathf.Abs(angle ) < maxSlopAngle && angle != 0;
+        }
+        return false;
+    }
+
+    private Vector3 GetSlopMoveDirection()
+    {
+        Vector3 moveDirection = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal");
+        return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
     }
 }
 
