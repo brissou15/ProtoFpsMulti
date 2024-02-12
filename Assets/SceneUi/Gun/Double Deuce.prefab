@@ -184,5 +184,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponDetaille: {fileID: 11400000, guid: 9f7936c9d60c23747a1e22816f917e23, type: 2}
-  GunEquiped: 0
+  GunEquiped: 1
   AnimeGun: {fileID: 0}

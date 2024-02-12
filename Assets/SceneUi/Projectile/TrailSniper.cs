@@ -52,7 +52,7 @@ public class TrailSnip : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer != LayerMask.NameToLayer("Player") )
+        //if (other.gameObject.layer != LayerMask.NameToLayer("Player") )
         {
             Destroy(gameObject);
         }

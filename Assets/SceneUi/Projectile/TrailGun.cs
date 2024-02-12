@@ -41,12 +41,12 @@ public class TrailGun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        Debug.Log("PAN");
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer != LayerMask.NameToLayer("Player"))
+        //if (other.gameObject.layer != LayerMask.NameToLayer("Player"))
         {
             Destroy(gameObject);
         }
