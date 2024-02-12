@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 
@@ -19,18 +20,33 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private float m_desiredSpeed;
     [SerializeField] private float m_baseSpeed;
     [SerializeField] private float m_wallRunSpeed;
+
+
+    [Header("Saut")]
     [SerializeField] private float m_jumpForce;
+    private bool m_isGrounded;
+    private bool m_canDoubleJump;
+    public float m_jumpCoolDown;
+    private float m_jumpTimer;
+
+
+    [Header("Camera")]
     [SerializeField] private float m_sensitivityX;
     [SerializeField] private float m_sensitivityY;
     [SerializeField] private float m_minY = -80f;
     [SerializeField] private float m_maxY = 90f;
-    private bool m_isGrounded;
-    private bool m_canDoubleJump;
-
     private float m_rotationY = 0f;
+    private Vector2 m_rotation = new Vector2();
+
+    [Header("Inputs")]
+    [SerializeField] private KeyCode JumpKey;
+    //[SerializeField] private KeyCode ForwardKey;
+    //[SerializeField] private KeyCode BackwardKey;
+    //[SerializeField] private KeyCode LeftKey;
+    //[SerializeField] private KeyCode RightKey;
 
     [Header("States")]
-    public MovementState e_state;
+    public MovementState m_state;
     public bool m_sliding;
     public bool m_crouching;
     public bool m_wallRunning;
@@ -38,6 +54,10 @@ public class PlayerScript : MonoBehaviour
     [Header("Slope Handling")]
     [SerializeField] private float m_maxSlopAngle;
     private RaycastHit slopeHit;
+
+    [Header("MultiLocal")]
+    public CONTROLER controler;//gère si clavier ou souris
+    public Gamepad MyControler;
 
     // Start is called before the first frame update
     void Start()
@@ -63,18 +83,86 @@ public class PlayerScript : MonoBehaviour
     }
     private void BaseMovement()
     {
-        Vector3 inputs = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-        Vector3 Velocity = transform.rotation * inputs * m_desiredSpeed;
-        m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
+        //pour le splitScreen
+        Vector3 inputs = new Vector3();
+        if (controler == CONTROLER.CLAVIER)
+        {
+            if (Input.GetKey(KeyCode.A))
+                inputs.x = -1f;
+            else if (Input.GetKey(KeyCode.D))
+                inputs.x = 1f;
+            else
+                inputs.x = 0f;
+
+            if (Input.GetKey(KeyCode.W))
+                inputs.z = 1f;
+            else if (Input.GetKey(KeyCode.S))
+                inputs.z = -1f;
+            else
+                inputs.z = 0f;
+        }
+        else
+        {
+            if (MyControler != null)
+            {
+                if(Mathf.Abs(MyControler.leftStick.ReadValue().x)>0.2)
+                {
+                    inputs.x = MyControler.leftStick.ReadValue().x;
+                }
+                if(Mathf.Abs(MyControler.leftStick.ReadValue().y)>0.2)
+                {
+                    inputs.y = MyControler.leftStick.ReadValue().y;
+                }
+            }         
+        }
+
+        //Input normaux
+        //Vector3 inputs = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+
+        //Vector3 Velocity = transform.localRotation * inputs * m_desiredSpeed;
+        inputs.Normalize();
+        if (controler == CONTROLER.CLAVIER)
+        {
+            Vector3 Velocity = transform.localRotation * inputs * m_desiredSpeed;
+            m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
+        }
+        else
+        {
+            m_rb.velocity = transform.localRotation * new Vector3(inputs.x * m_desiredSpeed, m_rb.velocity.y, inputs.y * m_desiredSpeed);
+            //m_rb.velocity = Velocity;
+        }
+        //m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
         //voir pout utiliser un add force au lieu de la velocité 
     }
     void jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !m_wallRunning)
+        bool canJump = false;
+        m_jumpTimer += Time.deltaTime;
+        if (controler == CONTROLER.CLAVIER)
+        {
+            if (!m_wallRunning)
+            {
+                canJump = Input.GetKeyDown(JumpKey);
+            }
+        }
+        else
+        {
+            if (m_jumpTimer > 0.2)
+            {
+                canJump = MyControler.buttonSouth.IsPressed();
+                if(canJump)
+                {
+                    m_jumpTimer = 0;
+                }                
+            }
+        }
+
+        if (canJump)
         {
             if (m_isGrounded)
             {
                 m_rb.AddForce(Vector3.up * m_jumpForce, ForceMode.Impulse);
+
             }
             else if (m_canDoubleJump)
             {
@@ -82,17 +170,42 @@ public class PlayerScript : MonoBehaviour
                 m_canDoubleJump = false;
             }
         }
+       
     }
     void UpdateCamera()
     {
         if (Cursor.lockState == CursorLockMode.Locked)
         {
-            float rotationX = transform.rotation.eulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
-            m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
-            //float rotationY = transform.rotation.eulerAngles.x + Input.GetAxis("Mouse Y") * m_sensitivityY;
-            m_rotationY = Mathf.Clamp(m_rotationY, m_minY, m_maxY);
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, rotationX, transform.eulerAngles.z);
-            m_camera.transform.localEulerAngles = new Vector3(-m_rotationY, 0, m_camera.transform.localEulerAngles.z);
+            if (controler == CONTROLER.CLAVIER)
+            {
+                m_rotation.x = transform.rotation.eulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
+                m_rotation.y += Input.GetAxis("Mouse Y") * m_sensitivityY;
+            }
+            else
+            {
+                if (MyControler != null)
+                {
+                    m_rotation.x = transform.rotation.eulerAngles.y + MyControler.rightStick.ReadValue().x * m_sensitivityX;
+                    m_rotation.y += MyControler.rightStick.ReadValue().y * m_sensitivityY;
+
+                }
+
+            }
+
+            m_rotation.y = Mathf.Clamp(m_rotation.y, m_minY, m_maxY);
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, m_rotation.x, transform.eulerAngles.z);
+            m_camera.transform.localEulerAngles = new Vector3(-m_rotation.y, 0, m_camera.transform.localEulerAngles.z);
+
+            if (false)
+            {
+                float rotationX = transform.rotation.eulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
+                m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
+                //float rotationY = transform.rotation.eulerAngles.x + Input.GetAxis("Mouse Y") * m_sensitivityY;
+                m_rotationY = Mathf.Clamp(m_rotationY, m_minY, m_maxY);
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, rotationX, transform.eulerAngles.z);
+                m_camera.transform.localEulerAngles = new Vector3(-m_rotationY, 0, m_camera.transform.localEulerAngles.z);
+            }
+
         }
     }
 
@@ -101,11 +214,11 @@ public class PlayerScript : MonoBehaviour
         if (m_wallRunning)
         {
             m_desiredSpeed = m_wallRunSpeed;
-            e_state = MovementState.wallrunning;
+            m_state = MovementState.wallrunning;
         }
         else
         {
-            e_state = MovementState.walking;
+            m_state = MovementState.walking;
             m_desiredSpeed = m_baseSpeed;
         }
     }
@@ -130,12 +243,12 @@ public class PlayerScript : MonoBehaviour
     private void OnCollisionStay(Collision collision)
     {
         int GroundLayer = LayerMask.NameToLayer("Ground");
-        if (collision.gameObject.layer== GroundLayer)
+        if (collision.gameObject.layer == GroundLayer)
         {
             m_isGrounded = true;
             m_canDoubleJump = true;
         }
-        
+
     }
     private void OnCollisionExit(Collision collision)
     {
@@ -146,9 +259,9 @@ public class PlayerScript : MonoBehaviour
     {
         if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, transform.lossyScale.y * 0.5f + 0.3f))
         {
-            float angle = Vector3.Angle(Vector3.up,slopeHit.normal);
+            float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
             Debug.Log(angle);
-            return Mathf.Abs(angle ) < m_maxSlopAngle && angle != 0;
+            return Mathf.Abs(angle) < m_maxSlopAngle && angle != 0;
         }
         return false;
     }
