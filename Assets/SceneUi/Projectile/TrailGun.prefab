@@ -201,4 +201,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e7a03afe38c2a498baf6bfa1c1128d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwDir: {x: 0, y: 0, z: 0}
+  damage: 9

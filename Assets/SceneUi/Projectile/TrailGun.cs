@@ -11,7 +11,8 @@ public class TrailGun : MonoBehaviour
     float ThrowForce = 700;
 
 
-
+    [SerializeField]
+    int damage;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +30,7 @@ public class TrailGun : MonoBehaviour
                 if (hit.collider.GetComponent<Dummy>())
                 {
                     Debug.Log("touched");
-                   hit.collider.GetComponent<Dummy>().damagingDummy(5);
+                   hit.collider.GetComponent<Dummy>().damagingDummy(damage);
                     
 
                 }
@@ -45,7 +46,10 @@ public class TrailGun : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //Destroy(gameObject);
+        if (other.gameObject.layer != LayerMask.NameToLayer("Player"))
+        {
+            Destroy(gameObject);
+        }
 
     }
 
