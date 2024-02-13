@@ -11,15 +11,14 @@ public class RoundManager : MonoBehaviour
     public int maxScore;
     public float roundTimer = 120;
 
-    [SerializeField]
-    GameObject Player1PreFab;
+    public GameObject Player1PreFab;
 
-    [SerializeField]
-    GameObject Player2PreFab;
+    public GameObject Player2PreFab;
 
-
+    public float respawnTime = 5;
     public float timerRespawn1 = 0;
     public float timerRespawn2 = 0;
+    [SerializeField] EndRoundScript endRoundScript;
 
     public void Awake()
     {
@@ -42,7 +41,11 @@ public class RoundManager : MonoBehaviour
     void Update()
     {
         roundTimer -= Time.deltaTime;
-        SpawnSystem();
+        if (!endRoundScript.haveEnd)
+        {
+            SpawnSystem();
+        }
+        
     }
 
     private void SpawnSystem()
@@ -50,11 +53,12 @@ public class RoundManager : MonoBehaviour
 
         if (Player2PreFab.activeSelf == false)
         {
-            timerRespawn2 += Time.deltaTime;
-            if (timerRespawn2 > 5)
+            timerRespawn2 += Time.deltaTime;           
+            if (timerRespawn2 > respawnTime)
             {
                 Player2PreFab.SetActive(true);
                 Player2PreFab.GetComponent<UiGun>().ResetGun();
+                Player2PreFab.GetComponent<PlayerScript>().ResetHp();
                 timerRespawn2 = 0;
             }
         }
@@ -62,10 +66,11 @@ public class RoundManager : MonoBehaviour
         if (Player1PreFab.activeSelf == false)
         {
             timerRespawn1 += Time.deltaTime;
-            if (timerRespawn1 > 5)
+            if (timerRespawn1 > respawnTime)
             {
                 Player1PreFab.SetActive(true);
                 Player1PreFab.GetComponent<UiGun>().ResetGun();
+                Player1PreFab.GetComponent<PlayerScript>().ResetHp();
                 timerRespawn1 = 0;
             }
         }
