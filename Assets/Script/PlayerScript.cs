@@ -60,6 +60,9 @@ public class PlayerScript : MonoBehaviour
     public CONTROLER controler;//gère si clavier ou souris
     public Gamepad MyControler;
 
+
+    bool dead = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -67,12 +70,19 @@ public class PlayerScript : MonoBehaviour
         m_desiredSpeed = m_baseSpeed;
         m_currentHealth = m_maxHealth;
     }
-
+    private void Awake()
+    {
+       
+    }
     // Update is called once per frame
     void Update()
     {
-        UpdateMovement();
-        UpdateCamera();
+        if (!dead)
+        {
+            vieManager();
+            UpdateMovement();
+            UpdateCamera();
+        }
         exitGame();
         UnlockCursor();
     }
@@ -82,6 +92,16 @@ public class PlayerScript : MonoBehaviour
         BaseMovement();
         jump();
     }
+
+    private void vieManager()
+    {
+        if(m_currentHealth <= 0)
+        {
+            m_currentHealth = m_maxHealth;
+            gameObject.SetActive(false);
+        }
+    }
+
     private void BaseMovement()
     {
         //pour le splitScreen
@@ -184,17 +204,17 @@ public class PlayerScript : MonoBehaviour
             }
             else
             {
-                if (MyControler != null )
+                if (MyControler != null)
                 {
-                    if(Mathf.Abs(MyControler.rightStick.ReadValue().x) > deadZone)
+                    if (Mathf.Abs(MyControler.rightStick.ReadValue().x) > deadZone)
                     {
                         m_rotation.x = transform.rotation.eulerAngles.y + MyControler.rightStick.ReadValue().x * m_sensitivityX;
                     }
-                    if(Mathf.Abs(MyControler.rightStick.ReadValue().y) > deadZone)
+                    if (Mathf.Abs(MyControler.rightStick.ReadValue().y) > deadZone)
                     {
                         m_rotation.y += MyControler.rightStick.ReadValue().y * m_sensitivityY;
                     }
-                    
+
 
                 }
 

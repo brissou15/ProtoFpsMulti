@@ -30,15 +30,11 @@ public class UiGun : MonoBehaviour
 
     WeaponSo CurrentWeaponD;
     // Start is called before the first frame update
+
+    
     void Start()
     {
-        if (GunList.Count > 0)
-        {
-            Gun = Instantiate(GunList[GunEquipedId].Gun);
-            Gun.GetComponent<GunScript>().GunEquiped = true;
-            Gun.transform.SetParent(CamUi.transform, false);
-            AmmoReserve.Add(GunList[GunEquipedId].magazineSize);
-        }
+        ResetGun();
     }
 
     void Update()
@@ -47,6 +43,30 @@ public class UiGun : MonoBehaviour
         keyTimer += Time.deltaTime;
         ShootAndGunManager();
 
+    }
+
+   public void ResetGun()
+    {
+        Destroy(Gun);
+        GunEquipedId = 0;
+        
+        if (GunList.Count > 1)
+        {
+            for (int i = 1; i < GunList.Count;)
+            {
+
+                GunList.Remove(GunList[i]);
+            }
+        }
+
+
+        if (GunList.Count > 0)
+        {
+            Gun = Instantiate(GunList[GunEquipedId].Gun);
+            Gun.GetComponent<GunScript>().GunEquiped = true;
+            Gun.transform.SetParent(CamUi.transform, false);
+            AmmoReserve.Add(GunList[GunEquipedId].magazineSize);
+        }
     }
 
     void ShootAndGunManager()
@@ -206,8 +226,9 @@ public class UiGun : MonoBehaviour
 
         if (Input.mouseScrollDelta.y != 0 && GunList.Count > 1)
         {
+
         }
-            SwapGunManager();
+        SwapGunManager();
         MaxAmmo = GunList[GunEquipedId].magazineSize;
         currentAmmo = AmmoReserve[GunEquipedId];
     }
