@@ -15,9 +15,18 @@ public class RoundManager : MonoBehaviour
 
     public GameObject Player2PreFab;
 
+    public GameObject[] BoxGun;
+
+    
+    GameObject BoxGunRecup;
+
     public float respawnTime = 5;
     public float timerRespawn1 = 0;
     public float timerRespawn2 = 0;
+
+    public Transform[] posPourSpawn;
+
+
     [SerializeField] EndRoundScript endRoundScript;
 
     public void Awake()
@@ -51,11 +60,19 @@ public class RoundManager : MonoBehaviour
     private void SpawnSystem()
     {
 
+
+        if(BoxGunRecup == null)
+        {
+            BoxGunRecup = Instantiate(BoxGun[Random.Range(0, 2)], posPourSpawn[Random.Range(0, 5)].position,Quaternion.identity);
+        }
+
+
         if (Player2PreFab.activeSelf == false)
         {
             timerRespawn2 += Time.deltaTime;           
             if (timerRespawn2 > respawnTime)
             {
+                Player2PreFab.transform.position = posPourSpawn[Random.Range(0, 5)].position;
                 Player2PreFab.SetActive(true);
                 Player2PreFab.GetComponent<UiGun>().ResetGun();
                 Player2PreFab.GetComponent<PlayerScript>().ResetHp();
@@ -68,6 +85,7 @@ public class RoundManager : MonoBehaviour
             timerRespawn1 += Time.deltaTime;
             if (timerRespawn1 > respawnTime)
             {
+                Player1PreFab.transform.position = posPourSpawn[Random.Range(0, 5)].position;
                 Player1PreFab.SetActive(true);
                 Player1PreFab.GetComponent<UiGun>().ResetGun();
                 Player1PreFab.GetComponent<PlayerScript>().ResetHp();
