@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UiScript : MonoBehaviour
+public class HUDScript : MonoBehaviour
 {
     [Header("Debug")]
     [SerializeField] private PlayerScript player;
