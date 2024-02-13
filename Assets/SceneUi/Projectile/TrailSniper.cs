@@ -21,20 +21,18 @@ public class TrailSnip : MonoBehaviour
 
         Propulse.AddForce(transform.forward * ThrowForce, ForceMode.Impulse);
         Ray ray = new Ray(transform.position, transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~(1 << LayerMask.NameToLayer("Player") /*| (1 << LayerMask.NameToLayer("Corps")*/)))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~/*(1 << LayerMask.NameToLayer("Player") |*/ (1 << LayerMask.NameToLayer("Projectile"))))
         {
-
-            if (hit.collider.tag == "Dummy")
-            {
-
-                if (hit.collider.GetComponent<Dummy>())
+                if (hit.collider.GetComponent<PlayerScript>())
                 {
                     Debug.Log("touched");
-                    hit.collider.GetComponent<Dummy>().damagingDummy(damage);
+                    hit.collider.GetComponent<PlayerScript>().m_currentHealth--;
+
+                    //hit.collider.GetComponent<Dummy>().damagingDummy(damage);
 
 
                 }
-            }
+
 
             if (hit.collider.tag == "SnipeProj")
             {

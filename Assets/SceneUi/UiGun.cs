@@ -31,7 +31,7 @@ public class UiGun : MonoBehaviour
     WeaponSo CurrentWeaponD;
     // Start is called before the first frame update
 
-    
+
     void Start()
     {
         ResetGun();
@@ -45,11 +45,11 @@ public class UiGun : MonoBehaviour
 
     }
 
-   public void ResetGun()
+    public void ResetGun()
     {
         Destroy(Gun);
         GunEquipedId = 0;
-        
+
         if (GunList.Count > 1)
         {
             for (int i = 1; i < GunList.Count;)
@@ -232,15 +232,30 @@ public class UiGun : MonoBehaviour
         MaxAmmo = GunList[GunEquipedId].magazineSize;
         currentAmmo = AmmoReserve[GunEquipedId];
     }
+    bool DejaEquiped = false;
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<BoxGun>() != null)
         {
-            GunList.Add(other.GetComponent<BoxGun>().GunInBox);
+            for (int i = 0; i < GunList.Count; i++)
+            {
+                if (GunList[i].weaponName == "Shotgun" || GunList[i].weaponName == "Snipe")
+                {
+                    DejaEquiped = true;
+                    AmmoReserve[i] = GunList[GunEquipedId].magazineSize;
+                }
+
+
+            }
+            if (!DejaEquiped)
+            {
+
+                GunList.Add(other.GetComponent<BoxGun>().GunInBox);
+
+                TakingGunManager();
+            }
 
             Destroy(other.gameObject);
-
-            TakingGunManager();
         }
     }
 

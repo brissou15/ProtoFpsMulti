@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cba3e7c2e234fe844b5befb224d0bcd2, type: 3}
   m_Name: GunShotGun
   m_EditorClassIdentifier: 
-  weaponName: 
+  weaponName: ShotGun
   Gun: {fileID: 8744081523781580634, guid: ff76ee69b732e284fa8637dd34f3435a, type: 3}
-  magazineSize: 10
+  magazineSize: 20
   ShootList:
   - fireRate: 3.92
     damages: 0
