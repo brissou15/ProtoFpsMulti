@@ -1,10 +1,10 @@
-    using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RoundManager : MonoBehaviour
 {
-   
+
     [Header("Variables")]
     public static RoundManager instance { get; private set; }
     public int[] scores = new int[2];
@@ -18,12 +18,12 @@ public class RoundManager : MonoBehaviour
     GameObject Player2PreFab;
 
 
-    float timerRespawn1 = 0;
-    float timerRespawn2 = 0;
+    public float timerRespawn1 = 0;
+    public float timerRespawn2 = 0;
 
     public void Awake()
     {
-        if(instance==null)
+        if (instance == null)
         {
             instance = this;
         }
@@ -35,13 +35,13 @@ public class RoundManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        roundTimer -=Time.deltaTime;
+        roundTimer -= Time.deltaTime;
         SpawnSystem();
     }
 
@@ -77,9 +77,9 @@ public class RoundManager : MonoBehaviour
 
     }
 
-    public void addScore(int team,int value)
+    public void addScore(int team, int value)
     {
-        scores[team]+= value;
+        scores[team] += value;
     }
     public RoundManager getInstance()
     {
