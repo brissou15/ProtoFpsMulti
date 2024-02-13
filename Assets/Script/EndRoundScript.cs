@@ -6,8 +6,8 @@ using TMPro;
 
 public class EndRoundScript : MonoBehaviour
 {
-    [SerializeField] private GameObject PanelHUD;
-    [SerializeField] private GameObject EndRoundUI;
+    [SerializeField] private GameObject hudPanel;
+    [SerializeField] private GameObject endRoundPanel;
     [SerializeField] private TMP_Text winText;
     // Start is called before the first frame update
     void Start()
@@ -25,8 +25,8 @@ public class EndRoundScript : MonoBehaviour
     {
         if (RoundManager.instance.scores[0]> RoundManager.instance.maxScore || RoundManager.instance.scores[1] > RoundManager.instance.maxScore)
         {
-            PanelHUD.SetActive(false);
-            EndRoundUI.SetActive(true);
+            hudPanel.SetActive(false);
+            endRoundPanel   .SetActive(true);
             ChangeTextWin();
         }
     }
