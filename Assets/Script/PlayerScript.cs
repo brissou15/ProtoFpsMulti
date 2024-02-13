@@ -40,6 +40,7 @@ public class PlayerScript : MonoBehaviour
 
     [Header("Inputs")]
     [SerializeField] private KeyCode JumpKey;
+    [SerializeField] private float deadZone = 0.3f;
     //[SerializeField] private KeyCode ForwardKey;
     //[SerializeField] private KeyCode BackwardKey;
     //[SerializeField] private KeyCode LeftKey;
@@ -105,15 +106,15 @@ public class PlayerScript : MonoBehaviour
         {
             if (MyControler != null)
             {
-                if(Mathf.Abs(MyControler.leftStick.ReadValue().x)>0.2)
+                if (Mathf.Abs(MyControler.leftStick.ReadValue().x) > deadZone)
                 {
                     inputs.x = MyControler.leftStick.ReadValue().x;
                 }
-                if(Mathf.Abs(MyControler.leftStick.ReadValue().y)>0.2)
+                if (Mathf.Abs(MyControler.leftStick.ReadValue().y) > deadZone)
                 {
                     inputs.y = MyControler.leftStick.ReadValue().y;
                 }
-            }         
+            }
         }
 
         //Input normaux
@@ -150,10 +151,10 @@ public class PlayerScript : MonoBehaviour
             if (m_jumpTimer > 0.2)
             {
                 canJump = MyControler.buttonSouth.IsPressed();
-                if(canJump)
+                if (canJump)
                 {
                     m_jumpTimer = 0;
-                }                
+                }
             }
         }
 
@@ -170,7 +171,7 @@ public class PlayerScript : MonoBehaviour
                 m_canDoubleJump = false;
             }
         }
-       
+
     }
     void UpdateCamera()
     {
@@ -183,10 +184,17 @@ public class PlayerScript : MonoBehaviour
             }
             else
             {
-                if (MyControler != null)
+                if (MyControler != null )
                 {
-                    m_rotation.x = transform.rotation.eulerAngles.y + MyControler.rightStick.ReadValue().x * m_sensitivityX;
-                    m_rotation.y += MyControler.rightStick.ReadValue().y * m_sensitivityY;
+                    if(Mathf.Abs(MyControler.rightStick.ReadValue().x) > deadZone)
+                    {
+                        m_rotation.x = transform.rotation.eulerAngles.y + MyControler.rightStick.ReadValue().x * m_sensitivityX;
+                    }
+                    if(Mathf.Abs(MyControler.rightStick.ReadValue().y) > deadZone)
+                    {
+                        m_rotation.y += MyControler.rightStick.ReadValue().y * m_sensitivityY;
+                    }
+                    
 
                 }
 
