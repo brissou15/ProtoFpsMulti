@@ -21,27 +21,27 @@ public class TrailGun : MonoBehaviour
 
         Propulse.AddForce(transform.forward * ThrowForce, ForceMode.Impulse);
         Ray ray = new Ray(transform.position, transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~(1 << LayerMask.NameToLayer("oui") | (1 << LayerMask.NameToLayer("Projectile")))))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~/*(1 << LayerMask.NameToLayer("Player") |*/ (1 << LayerMask.NameToLayer("Projectile"))))
         {
 
-            if (hit.collider.tag == "Dummy")
-            {
-
-                if (hit.collider.GetComponent<Dummy>())
+           
+                if (hit.collider.GetComponent<PlayerScript>())
                 {
                     Debug.Log("touched");
-                   hit.collider.GetComponent<Dummy>().damagingDummy(damage);
-                    
+                    hit.collider.GetComponent<PlayerScript>().m_currentHealth--;
+
+                   //hit.collider.GetComponent<Dummy>().damagingDummy(damage);
+
 
                 }
-            }
+            
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("PAN");
+       
     }
 
     private void OnTriggerEnter(Collider other)

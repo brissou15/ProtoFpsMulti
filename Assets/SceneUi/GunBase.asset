@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cba3e7c2e234fe844b5befb224d0bcd2, type: 3}
   m_Name: GunBase
   m_EditorClassIdentifier: 
-  weaponName: 
+  weaponName: Pistol
   Gun: {fileID: 7875756403082022123, guid: b90bb76ae83d29e45a14cfd04ea94f38, type: 3}
   magazineSize: 1000
   ShootList:
