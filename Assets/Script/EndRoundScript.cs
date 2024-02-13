@@ -36,7 +36,7 @@ public class EndRoundScript : MonoBehaviour
 
     private void ChangeTextWin()
     {
-        if (RoundManager.instance.scores[0] > RoundManager.instance.maxScore)
+        if (RoundManager.instance.scores[0] >= RoundManager.instance.maxScore)
         {
             winText.text = "Blue Team Win";
         }
