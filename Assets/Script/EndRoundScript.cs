@@ -9,6 +9,7 @@ public class EndRoundScript : MonoBehaviour
     [SerializeField] private GameObject hudPanel;
     [SerializeField] private GameObject endRoundPanel;
     [SerializeField] private TMP_Text winText;
+    public bool haveEnd;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,10 +24,12 @@ public class EndRoundScript : MonoBehaviour
 
     void ActiveEndRound()
     {
-        if (RoundManager.instance.scores[0]> RoundManager.instance.maxScore || RoundManager.instance.scores[1] > RoundManager.instance.maxScore)
+        if (RoundManager.instance.scores[0]>= RoundManager.instance.maxScore || RoundManager.instance.scores[1] >= RoundManager.instance.maxScore)
         {
             hudPanel.SetActive(false);
             endRoundPanel   .SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            haveEnd = true;
             ChangeTextWin();
         }
     }
@@ -48,6 +51,7 @@ public class EndRoundScript : MonoBehaviour
     {
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
 }

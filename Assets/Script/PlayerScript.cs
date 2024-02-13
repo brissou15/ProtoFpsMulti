@@ -11,6 +11,7 @@ public class PlayerScript : MonoBehaviour
     public Rigidbody m_rb;
     public Camera m_camera;
     public int m_team;
+    public int m_addScore = 5;
 
     [Header("Health")]
     public int m_maxHealth = 10;
@@ -61,7 +62,7 @@ public class PlayerScript : MonoBehaviour
     public Gamepad MyControler;
 
 
-    bool dead = false;
+    public bool dead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -93,11 +94,16 @@ public class PlayerScript : MonoBehaviour
         jump();
     }
 
+    public void ResetHp()
+    {
+        m_currentHealth = m_maxHealth;
+    }
+
     private void vieManager()
     {
         if(m_currentHealth <= 0)
         {
-            m_currentHealth = m_maxHealth;
+            RoundManager.instance.addScore(Mathf.Abs(m_team - 1), m_addScore);
             gameObject.SetActive(false);
         }
     }

@@ -21,6 +21,7 @@ public class HUDScoreScript : MonoBehaviour
     void Update()
     {
         updateScore();
+        updateTime();
     }
 
     private void updateScore()
@@ -34,12 +35,15 @@ public class HUDScoreScript : MonoBehaviour
         textBlueTeam.text = RoundManager.instance.scores[0].ToString();
         textRedTeam.text = RoundManager.instance.scores[1].ToString();
 
-        //textTimer.text = RoundManager.instance.roundTimer.ToString();
+        
+      
+    }
+    private void updateTime()
+    {
         int min = toMin(RoundManager.instance.roundTimer);
         int sec = toSecond(RoundManager.instance.roundTimer);
         textTimer.text = min.ToString() + ":" + sec.ToString();
     }
-
     public int toMin(float _time)
     {
         return (int)_time / 60;
