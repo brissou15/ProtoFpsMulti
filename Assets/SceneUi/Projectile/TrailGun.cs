@@ -21,7 +21,7 @@ public class TrailGun : MonoBehaviour
 
         Propulse.AddForce(transform.forward * ThrowForce, ForceMode.Impulse);
         Ray ray = new Ray(transform.position, transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~(1 << LayerMask.NameToLayer("Player") /*| (1 << LayerMask.NameToLayer("Corps")*/)))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~(1 << LayerMask.NameToLayer("oui") | (1 << LayerMask.NameToLayer("Projectile")))))
         {
 
             if (hit.collider.tag == "Dummy")
