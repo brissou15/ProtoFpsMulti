@@ -28,12 +28,12 @@ public class TrailGun : MonoBehaviour
                 if (hit.collider.GetComponent<PlayerScript>())
                 {
                     Debug.Log("touched");
-                    hit.collider.GetComponent<PlayerScript>().m_currentHealth--;
+                hit.collider.GetComponent<PlayerScript>().m_currentHealth -= damage;
 
-                   //hit.collider.GetComponent<Dummy>().damagingDummy(damage);
+                //hit.collider.GetComponent<Dummy>().damagingDummy(damage);
 
 
-                }
+            }
             
         }
     }

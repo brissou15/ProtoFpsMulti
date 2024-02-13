@@ -193,6 +193,7 @@ public class PlayerScript : MonoBehaviour
             }
             else if (m_canDoubleJump)
             {
+                m_rb.velocity = new Vector3(m_rb.velocity.x, 0, m_rb.velocity.z);
                 m_rb.AddForce(Vector3.up * (m_jumpForce / 1.5f), ForceMode.Impulse);
                 m_canDoubleJump = false;
             }

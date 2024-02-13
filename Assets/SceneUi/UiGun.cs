@@ -233,13 +233,14 @@ public class UiGun : MonoBehaviour
         currentAmmo = AmmoReserve[GunEquipedId];
     }
     bool DejaEquiped = false;
-    private void OnTriggerEnter(Collider other)
+   
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.GetComponent<BoxGun>() != null)
+        if (other.collider.GetComponent<BoxGun>() != null)
         {
             for (int i = 0; i < GunList.Count; i++)
             {
-                if (GunList[i].weaponName == "Shotgun" || GunList[i].weaponName == "Snipe")
+                if (GunList[i].weaponName == "ShotGun" || GunList[i].weaponName == "Snipe")
                 {
                     DejaEquiped = true;
                     AmmoReserve[i] = GunList[GunEquipedId].magazineSize;
@@ -250,7 +251,7 @@ public class UiGun : MonoBehaviour
             if (!DejaEquiped)
             {
 
-                GunList.Add(other.GetComponent<BoxGun>().GunInBox);
+                GunList.Add(other.collider.GetComponent<BoxGun>().GunInBox);
 
                 TakingGunManager();
             }
