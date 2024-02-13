@@ -54,8 +54,8 @@ public class UiGun : MonoBehaviour
         {
             for (int i = 1; i < GunList.Count;)
             {
-
                 GunList.Remove(GunList[i]);
+                AmmoReserve.Remove(AmmoReserve[i]);
             }
         }
 
@@ -233,31 +233,50 @@ public class UiGun : MonoBehaviour
         currentAmmo = AmmoReserve[GunEquipedId];
     }
     bool DejaEquiped = false;
-   
+
     private void OnCollisionEnter(Collision other)
     {
+        bool check = false;
+        int index = 0;
+        WeaponSo newGun;
         if (other.collider.GetComponent<BoxGun>() != null)
         {
+            newGun = other.collider.GetComponent<BoxGun>().GunInBox;
+
             for (int i = 0; i < GunList.Count; i++)
             {
-                if (GunList[i].weaponName == "ShotGun" || GunList[i].weaponName == "Snipe")
+
+                if (GunList[i].weaponName == newGun.weaponName)
                 {
-                    DejaEquiped = true;
-                    AmmoReserve[i] = GunList[GunEquipedId].magazineSize;
+                    check = true;
+                    
+                    AmmoReserve[i] = GunList[i].magazineSize;
+                    break;
                 }
-
-
+                //if (GunList[i].weaponName == "ShotGun" || GunList[i].weaponName == "Snipe")
+                //{
+                //    DejaEquiped = true;
+                //    AmmoReserve[i] = GunList[i].magazineSize;
+                //}
             }
-            if (!DejaEquiped)
+            if (!check)
             {
-
-                GunList.Add(other.collider.GetComponent<BoxGun>().GunInBox);
+                GunList.Add(newGun);
 
                 TakingGunManager();
             }
+            
+            //if (!DejaEquiped)
+            //{
 
+            //    GunList.Add(newGun);
+
+            //    TakingGunManager();
+            //}
             Destroy(other.gameObject);
+
         }
+
     }
 
 }

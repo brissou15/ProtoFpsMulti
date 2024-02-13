@@ -6,7 +6,7 @@ public class TrailSnip : MonoBehaviour
 {
     Rigidbody Propulse;
 
-
+    public GameObject Particuleobject;
 
     float ThrowForce = 700;
 
@@ -23,21 +23,21 @@ public class TrailSnip : MonoBehaviour
         Ray ray = new Ray(transform.position, transform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~/*(1 << LayerMask.NameToLayer("Player") |*/ (1 << LayerMask.NameToLayer("Projectile"))))
         {
-                if (hit.collider.GetComponent<PlayerScript>())
-                {
-                    Debug.Log("touched");
-                    hit.collider.GetComponent<PlayerScript>().m_currentHealth -= damage;
+            if (hit.collider.GetComponent<PlayerScript>())
+            {
+                Debug.Log("touched");
+                hit.collider.GetComponent<PlayerScript>().m_currentHealth -= damage;
+                GameObject Object = Instantiate(Particuleobject, hit.point, Quaternion.identity);
+                //hit.collider.GetComponent<Dummy>().damagingDummy(damage);
 
-                    //hit.collider.GetComponent<Dummy>().damagingDummy(damage);
 
-
-                }
+            }
 
 
             if (hit.collider.tag == "SnipeProj")
             {
                 Destroy(hit.collider.gameObject);
-               
+
             }
         }
     }

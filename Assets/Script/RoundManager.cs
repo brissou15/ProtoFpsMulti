@@ -63,7 +63,7 @@ public class RoundManager : MonoBehaviour
 
         if(BoxGunRecup == null)
         {
-            BoxGunRecup = Instantiate(BoxGun[Random.Range(0, 2)], posPourSpawn[Random.Range(0, 5)].position,Quaternion.identity);
+            BoxGunRecup = Instantiate(BoxGun[Random.Range(0, 2)], posPourSpawn[Random.Range(0, 4)].position,Quaternion.identity);
         }
 
 
@@ -72,7 +72,7 @@ public class RoundManager : MonoBehaviour
             timerRespawn2 += Time.deltaTime;           
             if (timerRespawn2 > respawnTime)
             {
-                Player2PreFab.transform.position = posPourSpawn[Random.Range(0, 5)].position;
+                Player2PreFab.transform.position = posPourSpawn[Random.Range(0, 4)].position;
                 Player2PreFab.SetActive(true);
                 Player2PreFab.GetComponent<UiGun>().ResetGun();
                 Player2PreFab.GetComponent<PlayerScript>().ResetHp();
@@ -85,7 +85,7 @@ public class RoundManager : MonoBehaviour
             timerRespawn1 += Time.deltaTime;
             if (timerRespawn1 > respawnTime)
             {
-                Player1PreFab.transform.position = posPourSpawn[Random.Range(0, 5)].position;
+                Player1PreFab.transform.position = posPourSpawn[Random.Range(0, 4)].position;
                 Player1PreFab.SetActive(true);
                 Player1PreFab.GetComponent<UiGun>().ResetGun();
                 Player1PreFab.GetComponent<PlayerScript>().ResetHp();

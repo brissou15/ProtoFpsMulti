@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.HID;
 
 [RequireComponent(typeof(Rigidbody))]
 
@@ -63,6 +64,7 @@ public class PlayerScript : MonoBehaviour
 
 
     public bool dead = false;
+    public GameObject Boom;
 
     // Start is called before the first frame update
     void Start()
@@ -104,6 +106,7 @@ public class PlayerScript : MonoBehaviour
         if(m_currentHealth <= 0)
         {
             RoundManager.instance.addScore(Mathf.Abs(m_team - 1), m_addScore);
+            GameObject Object = Instantiate(Boom, transform.position, Quaternion.identity);
             gameObject.SetActive(false);
         }
     }
