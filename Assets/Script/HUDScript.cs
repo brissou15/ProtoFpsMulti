@@ -24,6 +24,9 @@ public class HUDScript : MonoBehaviour
     [SerializeField] private GameObject deathPanel;
     [SerializeField] private TMP_Text deathTimerText;
 
+    [Header("Quad Damage")]
+    [SerializeField] private GameObject quadUI;
+
 
 
 
@@ -40,6 +43,7 @@ public class HUDScript : MonoBehaviour
         UpdateHealthBar();
         updateAmmo();
         updateDeath();
+        updateQuadDamage();
     }
 
     private void debugUI()
@@ -92,5 +96,16 @@ public class HUDScript : MonoBehaviour
         }
     }
 
+    private void updateQuadDamage()
+    {
+        if(player.bonusType == bonusType.QuadDamage)
+        {
+            quadUI.gameObject.SetActive(true);
+        }
+        else
+        {
+            quadUI.gameObject.SetActive(false);
+        }
+    }
 
 }

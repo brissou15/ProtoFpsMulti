@@ -13,7 +13,7 @@ public class BonusScript : MonoBehaviour
     [SerializeField] protected MeshRenderer meshRenderer;
 
     [Header("Name")]
-    protected bonusType bonusType = bonusType.Nothing;
+    [SerializeField] protected bonusType bonusType = bonusType.Nothing;
     [Header("Values")]
     [SerializeField] protected bool isLootable = true;
     [SerializeField] protected int value = 50;

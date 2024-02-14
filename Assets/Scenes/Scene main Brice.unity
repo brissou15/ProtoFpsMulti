@@ -796,6 +796,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1849479049}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &99817916
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4096503540710191546, guid: 4126023f94e24e9429cc046d8d35e6e4, type: 3}
+      propertyPath: m_Name
+      value: QuadDamageBonus
+      objectReference: {fileID: 0}
+    - target: {fileID: 8970836747721595565, guid: 4126023f94e24e9429cc046d8d35e6e4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.3141274
+      objectReference: {fileID: 0}
+    - target: {fileID: 8970836747721595565, guid: 4126023f94e24e9429cc046d8d35e6e4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 50.766167
+      objectReference: {fileID: 0}
+    - target: {fileID: 8970836747721595565, guid: 4126023f94e24e9429cc046d8d35e6e4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 28.206558
+      objectReference: {fileID: 0}
+    - target: {fileID: 8970836747721595565, guid: 4126023f94e24e9429cc046d8d35e6e4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8970836747721595565, guid: 4126023f94e24e9429cc046d8d35e6e4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8970836747721595565, guid: 4126023f94e24e9429cc046d8d35e6e4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8970836747721595565, guid: 4126023f94e24e9429cc046d8d35e6e4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8970836747721595565, guid: 4126023f94e24e9429cc046d8d35e6e4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8970836747721595565, guid: 4126023f94e24e9429cc046d8d35e6e4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8970836747721595565, guid: 4126023f94e24e9429cc046d8d35e6e4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4126023f94e24e9429cc046d8d35e6e4, type: 3}
 --- !u!43 &104390619
 Mesh:
   m_ObjectHideFlags: 0
@@ -1735,6 +1792,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3764867590022408798, guid: fd6f703226e80b745bdf7d12acb96aed, type: 3}
   m_PrefabInstance: {fileID: 215349072}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &216543353
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 216543354}
+  - component: {fileID: 216543356}
+  - component: {fileID: 216543355}
+  m_Layer: 5
+  m_Name: QuadDamage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &216543354
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216543353}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1513557401}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1920, y: 540}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &216543355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216543353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: e2f0f3471945e554f9ca853e544b8898, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &216543356
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216543353}
+  m_CullTransparentMesh: 1
 --- !u!43 &220577849
 Mesh:
   m_ObjectHideFlags: 0
@@ -8988,6 +9120,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 404554, guid: 6c5cf72eed364734aa359fd03de15100, type: 3}
   m_PrefabInstance: {fileID: 2104574776}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1409136968
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1409136969}
+  - component: {fileID: 1409136971}
+  - component: {fileID: 1409136970}
+  m_Layer: 5
+  m_Name: QuadDamage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1409136969
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409136968}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2147149929}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -540}
+  m_SizeDelta: {x: 1920, y: 540}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1409136970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409136968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: e2f0f3471945e554f9ca853e544b8898, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1409136971
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409136968}
+  m_CullTransparentMesh: 1
 --- !u!1 &1409358779
 GameObject:
   m_ObjectHideFlags: 0
@@ -9672,6 +9879,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 216543354}
   - {fileID: 1934979819}
   - {fileID: 1108331034}
   - {fileID: 653725470}
@@ -9704,6 +9912,7 @@ MonoBehaviour:
   AmmoText: {fileID: 1936372858}
   deathPanel: {fileID: 1496342016}
   deathTimerText: {fileID: 1523678827}
+  quadUI: {fileID: 216543353}
 --- !u!114 &1513557403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13113,6 +13322,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1409136969}
   - {fileID: 2126881158}
   - {fileID: 900611433}
   - {fileID: 610958638}
@@ -13145,6 +13355,7 @@ MonoBehaviour:
   AmmoText: {fileID: 70223486}
   deathPanel: {fileID: 470829629}
   deathTimerText: {fileID: 824007285}
+  quadUI: {fileID: 1409136968}
 --- !u!114 &2147149931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13494,3 +13705,4 @@ SceneRoots:
   - {fileID: 1932906097878191340}
   - {fileID: 915849852}
   - {fileID: 495088537479185533}
+  - {fileID: 99817916}
