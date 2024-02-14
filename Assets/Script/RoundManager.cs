@@ -10,10 +10,13 @@ public class RoundManager : MonoBehaviour
     public int[] scores = new int[2];
     public int maxScore;
     public float roundTimer = 120;
+    public bool canPlay = false;
+    [SerializeField] private float countdownTime = 5;
+    public float countdownTimer = 5;
 
     public GameObject Player1PreFab;
-
     public GameObject Player2PreFab;
+
 
     public GameObject[] BoxGun;
 
@@ -51,7 +54,8 @@ public class RoundManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        canPlay = false;
+        countdownTimer = countdownTime;
     }
 
     // Update is called once per frame
@@ -62,7 +66,7 @@ public class RoundManager : MonoBehaviour
         {
             SpawnSystem();
         }
-        
+        updatecountdown();
     }
 
     private void SpawnSystem()
@@ -134,10 +138,18 @@ public class RoundManager : MonoBehaviour
         }
 
     }
-
-    private void updateScore()
+    
+    private void updatecountdown()
     {
-
+        Time.timeScale = canPlay ? 1 : 0;
+        if(countdownTimer > 0)
+        {
+            countdownTimer-=Time.unscaledDeltaTime;
+        }
+        else
+        {
+            canPlay = true;
+        }
     }
 
     public void addScore(int team, int value)
