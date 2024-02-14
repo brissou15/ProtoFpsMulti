@@ -294,8 +294,9 @@ public class PlayerScript : MonoBehaviour
             bonusTimer += Time.deltaTime;
             if (bonusTimer >= bonusDuration)
             {
+                //reset de toutes les variables qui se trouve sous le header Bonus
                 bonusTimer = 0;
-                //reset de toutes les variable modificatrice de stats qui se trouve sous le header Bonus
+                bonusType = bonusType.Nothing;
                 damageMultiplier = 1;
             }
         }        
