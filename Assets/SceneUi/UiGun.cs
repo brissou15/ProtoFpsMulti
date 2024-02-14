@@ -104,8 +104,9 @@ public class UiGun : MonoBehaviour
                     }
                 }
             }
-            else
+            else if (player.MyControler!=null)
             {
+
                 if (player.MyControler.rightTrigger.isPressed || player.MyControler.leftTrigger.isPressed)
                 {
 
@@ -182,7 +183,7 @@ public class UiGun : MonoBehaviour
                 }
             }
         }
-        else
+        else if (player.MyControler!=null)
         {
             if (player.MyControler.buttonNorth.isPressed && keyTimer > 0.2)
             {
