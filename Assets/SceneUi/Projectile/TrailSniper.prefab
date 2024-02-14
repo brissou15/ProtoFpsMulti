@@ -202,4 +202,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Particuleobject: {fileID: 1266823874811783959, guid: 2c130cb514befcc478631172dc6d89fd, type: 3}
-  damage: 74
+  damage: 116
