@@ -57,7 +57,7 @@ public class Sliding : MonoBehaviour
             }
         }
         
-        if (canSlide && (horizontalInput != 0 || verticalInput != 0) && !player.m_wallRunning)
+        if (canSlide && (horizontalInput != 0 || verticalInput != 0) && !player.wallRunning)
         {
             StartSlide();
         }
