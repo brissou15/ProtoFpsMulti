@@ -17,8 +17,15 @@ public class RoundManager : MonoBehaviour
 
     public GameObject[] BoxGun;
 
-    
-    GameObject BoxGunRecup;
+    GameObject BoxGun1;
+    float timerRespawnGun1 = 0;
+    GameObject BoxGun2;
+    float timerRespawnGun2 = 0;
+    GameObject BoxGun3;
+    float timerRespawnGun3 = 0;
+    GameObject BoxGun4;
+    float timerRespawnGun4 = 0;
+
 
     public float respawnTime = 5;
     public float timerRespawn1 = 0;
@@ -26,6 +33,7 @@ public class RoundManager : MonoBehaviour
 
     public Transform[] posPourSpawn;
 
+    public Transform[] posSpawnBox;
 
     [SerializeField] EndRoundScript endRoundScript;
 
@@ -59,11 +67,43 @@ public class RoundManager : MonoBehaviour
 
     private void SpawnSystem()
     {
-
-
-        if(BoxGunRecup == null)
+        if(BoxGun1 == null)
         {
-            BoxGunRecup = Instantiate(BoxGun[Random.Range(0, 2)], posPourSpawn[Random.Range(0, 4)].position,Quaternion.identity);
+            timerRespawnGun1 += Time.deltaTime;
+            if(timerRespawnGun1> 5)
+            {
+                BoxGun1 = Instantiate(BoxGun[1], posSpawnBox[0].position, Quaternion.identity);
+                timerRespawnGun1 = 0;
+            }
+        }
+        if (BoxGun2 == null)
+        {
+            timerRespawnGun2 += Time.deltaTime;
+            if (timerRespawnGun2 > 5)
+            {
+                BoxGun2 = Instantiate(BoxGun[1], posSpawnBox[1].position, Quaternion.identity);
+                timerRespawnGun2 = 0;
+            }
+        }
+
+        if (BoxGun3 == null)
+        {
+            timerRespawnGun3 += Time.deltaTime;
+            if (timerRespawnGun3 > 5)
+            {
+                BoxGun3 = Instantiate(BoxGun[0], posSpawnBox[2].position, Quaternion.identity);
+                timerRespawnGun3 = 0;
+            }
+        }
+
+        if (BoxGun4 == null)
+        {
+            timerRespawnGun4 += Time.deltaTime;
+            if (timerRespawnGun4 > 5)
+            {
+                BoxGun4 = Instantiate(BoxGun[0], posSpawnBox[3].position, Quaternion.identity);
+                timerRespawnGun4 = 0;
+            }
         }
 
 

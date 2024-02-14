@@ -27,10 +27,14 @@ public class SnipeProj : MonoBehaviour
     {
         Destroy(gameObject,1.5f);
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        Destroy(gameObject);
+    }
 
     private void OnDestroy()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 5);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 6);
         foreach (var hitCollider in hitColliders)
         {
             if(hitCollider.GetComponent<PlayerScript>())

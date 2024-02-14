@@ -81,7 +81,7 @@ public class ProjectileScriptRoquette : MonoBehaviour
         {
 
             GameObject Projectile = Instantiate(Trail, transform.position,
-               Calcul(15));
+               Calcul(11));
 
             //Projectile.GetComponent<ProjectileScriptRoquette>().throwDir = CamUi.transform.forward;
             //Projectile.transform.localRotation = CamUi.transform.rotation;
