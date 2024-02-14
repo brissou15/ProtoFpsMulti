@@ -9,36 +9,36 @@ using UnityEngine.InputSystem.HID;
 public class PlayerScript : MonoBehaviour
 {
     [Header("References")]
-    public Rigidbody m_rb;
-    public Camera m_camera;
-    public int m_team;
-    public int m_addScore = 5;
+    public Rigidbody rb;
+    public Camera camera;
+    public int team;
+    public int addScore = 5;
 
     [Header("Health")]
-    public int m_maxHealth = 10;
-    public int m_currentHealth;
+    public int maxHealth = 10;
+    public int currentHealth;
 
     [Header("Speeds")]
-    public float m_desiredSpeed;
-    [SerializeField] private float m_baseSpeed;
-    [SerializeField] private float m_wallRunSpeed;
+    public float desiredSpeed;
+    [SerializeField] private float baseSpeed;
+    [SerializeField] private float wallRunSpeed;
 
 
     [Header("Saut")]
-    [SerializeField] private float m_jumpForce;
-    public bool m_isGrounded;
-    public bool m_canDoubleJump;
-    public float m_jumpCoolDown;
-    public float m_jumpTimer;
+    [SerializeField] private float jumpForce;
+    public bool isGrounded;
+    public bool canDoubleJump;
+    public float jumpCoolDown;
+    public float jumpTimer;
 
 
     [Header("Camera")]
-    [SerializeField] private float m_sensitivityX;
-    [SerializeField] private float m_sensitivityY;
-    [SerializeField] private float m_minY = -80f;
-    [SerializeField] private float m_maxY = 90f;
-    private float m_rotationY = 0f;
-    private Vector2 m_rotation = new Vector2();
+    [SerializeField] private float sensitivityX;
+    [SerializeField] private float sensitivityY;
+    [SerializeField] private float minY = -80f;
+    [SerializeField] private float maxY = 90f;
+    private float rotationY = 0f;
+    private Vector2 rotation = new Vector2();
 
     [Header("Inputs")]
     [SerializeField] private KeyCode JumpKey;
@@ -49,29 +49,33 @@ public class PlayerScript : MonoBehaviour
     //[SerializeField] private KeyCode RightKey;
 
     [Header("States")]
-    public MovementState m_state;
-    public bool m_sliding;
-    public bool m_crouching;
-    public bool m_wallRunning;
+    public MovementState state;
+    public bool sliding;
+    public bool crouching;
+    public bool wallRunning;
 
     [Header("Slope Handling")]
-    [SerializeField] private float m_maxSlopAngle;
+    [SerializeField] private float maxSlopAngle;
     private RaycastHit slopeHit;
 
     [Header("MultiLocal")]
     public CONTROLER controler;//gère si clavier ou souris
     public Gamepad MyControler;
 
-
+    [Header("Death")]
     public bool dead = false;
     public GameObject Boom;
+
+    [Header("Bonus")]
+    public string bonusName;
+
 
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        m_desiredSpeed = m_baseSpeed;
-        m_currentHealth = m_maxHealth;
+        desiredSpeed = baseSpeed;
+        currentHealth = maxHealth;
     }
     private void Awake()
     {
@@ -98,14 +102,14 @@ public class PlayerScript : MonoBehaviour
 
     public void ResetHp()
     {
-        m_currentHealth = m_maxHealth;
+        currentHealth = maxHealth;
     }
 
     private void vieManager()
     {
-        if(m_currentHealth <= 0)
+        if(currentHealth <= 0)
         {
-            RoundManager.instance.addScore(Mathf.Abs(m_team - 1), m_addScore);
+            RoundManager.instance.addScore(Mathf.Abs(team - 1), addScore);
             GameObject Object = Instantiate(Boom, transform.position, Quaternion.identity);
             gameObject.SetActive(false);
         }
@@ -117,7 +121,7 @@ public class PlayerScript : MonoBehaviour
         Vector3 inputs = new Vector3();
         if (controler == CONTROLER.CLAVIER)
         {
-            if(!m_wallRunning)
+            if(!wallRunning)
             {
                 if (Input.GetKey(KeyCode.A))
                     inputs.x = -1f;
@@ -137,7 +141,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (MyControler != null)
             {
-                if(!m_wallRunning)
+                if(!wallRunning)
                 {
                     if (Mathf.Abs(MyControler.leftStick.ReadValue().x) > deadZone)
                     {
@@ -155,56 +159,56 @@ public class PlayerScript : MonoBehaviour
         //Input normaux
         //Vector3 inputs = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
 
-        //Vector3 Velocity = transform.localRotation * inputs * m_desiredSpeed;
+        //Vector3 Velocity = transform.localRotation * inputs * desiredSpeed;
         inputs.Normalize();
         if (controler == CONTROLER.CLAVIER)
         {
-            Vector3 Velocity = transform.localRotation * inputs * m_desiredSpeed;
-            m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
+            Vector3 Velocity = transform.localRotation * inputs * desiredSpeed;
+            rb.velocity = new Vector3(Velocity.x, rb.velocity.y, Velocity.z);
         }
         else if(MyControler != null)
         {
-            m_rb.velocity = transform.localRotation * new Vector3(inputs.x * m_desiredSpeed, m_rb.velocity.y, inputs.y * m_desiredSpeed);
-            //m_rb.velocity = Velocity;
+            rb.velocity = transform.localRotation * new Vector3(inputs.x * desiredSpeed, rb.velocity.y, inputs.y * desiredSpeed);
+            //rb.velocity = Velocity;
         }
-        //m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
+        //rb.velocity = new Vector3(Velocity.x, rb.velocity.y, Velocity.z);
         //voir pout utiliser un add force au lieu de la velocité 
     }
     void jump()
     {
         bool canJump = false;
-        m_jumpTimer += Time.deltaTime;
+        jumpTimer += Time.deltaTime;
         if (controler == CONTROLER.CLAVIER)
         {
-            if (!m_wallRunning)
+            if (!wallRunning)
             {
                 canJump = Input.GetKeyDown(JumpKey);
             }
         }
         else if(MyControler != null)
         {
-            if (m_jumpTimer > 0.2 && !m_wallRunning)
+            if (jumpTimer > 0.2 && !wallRunning)
             {
                 canJump = MyControler.buttonSouth.IsPressed();
                 if (canJump)
                 {
-                    m_jumpTimer = 0;
+                    jumpTimer = 0;
                 }
             }
         }
 
         if (canJump)
         {
-            if (m_isGrounded)
+            if (isGrounded)
             {
-                m_rb.AddForce(Vector3.up * m_jumpForce, ForceMode.Impulse);
+                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
             }
-            else if (m_canDoubleJump)
+            else if (canDoubleJump)
             {
-                m_rb.velocity = new Vector3(m_rb.velocity.x, 0, m_rb.velocity.z);
-                m_rb.AddForce(Vector3.up * (m_jumpForce / 1.5f), ForceMode.Impulse);
-                m_canDoubleJump = false;
+                rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+                rb.AddForce(Vector3.up * (jumpForce / 1.5f), ForceMode.Impulse);
+                canDoubleJump = false;
             }
         }
     }
@@ -214,8 +218,8 @@ public class PlayerScript : MonoBehaviour
         {
             if (controler == CONTROLER.CLAVIER)
             {
-                m_rotation.x = transform.rotation.eulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
-                m_rotation.y += Input.GetAxis("Mouse Y") * m_sensitivityY;
+                rotation.x = transform.rotation.eulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
+                rotation.y += Input.GetAxis("Mouse Y") * sensitivityY;
             }
             else
             {
@@ -223,42 +227,44 @@ public class PlayerScript : MonoBehaviour
                 {
                     if (Mathf.Abs(MyControler.rightStick.ReadValue().x) > deadZone)
                     {
-                        m_rotation.x = transform.rotation.eulerAngles.y + MyControler.rightStick.ReadValue().x * m_sensitivityX;
+                        rotation.x = transform.rotation.eulerAngles.y + MyControler.rightStick.ReadValue().x * sensitivityX;
                     }
                     if (Mathf.Abs(MyControler.rightStick.ReadValue().y) > deadZone)
                     {
-                        m_rotation.y += MyControler.rightStick.ReadValue().y * m_sensitivityY;
+                        rotation.y += MyControler.rightStick.ReadValue().y * sensitivityY;
                     }
                 }
             }
 
-            m_rotation.y = Mathf.Clamp(m_rotation.y, m_minY, m_maxY);
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, m_rotation.x, transform.eulerAngles.z);
-            m_camera.transform.localEulerAngles = new Vector3(-m_rotation.y, 0, m_camera.transform.localEulerAngles.z);
+            rotation.y = Mathf.Clamp(rotation.y, minY, maxY);
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, rotation.x, transform.eulerAngles.z);
+            camera.transform.localEulerAngles = new Vector3(-rotation.y, 0, camera.transform.localEulerAngles.z);
 
-            if (false)
-            {
-                float rotationX = transform.rotation.eulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
-                m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
-                //float rotationY = transform.rotation.eulerAngles.x + Input.GetAxis("Mouse Y") * m_sensitivityY;
-                m_rotationY = Mathf.Clamp(m_rotationY, m_minY, m_maxY);
-                transform.eulerAngles = new Vector3(transform.eulerAngles.x, rotationX, transform.eulerAngles.z);
-                m_camera.transform.localEulerAngles = new Vector3(-m_rotationY, 0, m_camera.transform.localEulerAngles.z);
-            }
+            //if (false)
+            //{
+            //    float rotationX = transform.rotation.eulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
+            //    rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+            //    //float rotationY = transform.rotation.eulerAngles.x + Input.GetAxis("Mouse Y") * sensitivityY;
+            //    rotationY = Mathf.Clamp(rotationY, minY, maxY);
+            //    transform.eulerAngles = new Vector3(transform.eulerAngles.x, rotationX, transform.eulerAngles.z);
+            //    camera.transform.localEulerAngles = new Vector3(-rotationY, 0, camera.transform.localEulerAngles.z);
+            //}
+
+            //
         }
     }
 
     void stateManager()
     {
-        if (m_wallRunning)
+        if (wallRunning)
         {
-            m_desiredSpeed = m_wallRunSpeed;
-            m_state = MovementState.wallrunning;
+            desiredSpeed = wallRunSpeed;
+            state = MovementState.wallrunning;
         }
         else
         {
-            m_state = MovementState.walking;
-            m_desiredSpeed = m_baseSpeed;
+            state = MovementState.walking;
+            desiredSpeed = baseSpeed;
         }
     }
     void exitGame()
@@ -284,14 +290,14 @@ public class PlayerScript : MonoBehaviour
         int GroundLayer = LayerMask.NameToLayer("Ground");
         if (collision.gameObject.layer == GroundLayer)
         {
-            m_isGrounded = true;
-            m_canDoubleJump = true;
+            isGrounded = true;
+            canDoubleJump = true;
         }
 
     }
     private void OnCollisionExit(Collision collision)
     {
-        m_isGrounded = false;
+        isGrounded = false;
     }
 
     public bool OnSLope()
@@ -300,7 +306,7 @@ public class PlayerScript : MonoBehaviour
         {
             float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
             Debug.Log(angle);
-            return Mathf.Abs(angle) < m_maxSlopAngle && angle != 0;
+            return Mathf.Abs(angle) < maxSlopAngle && angle != 0;
         }
         return false;
     }

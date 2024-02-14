@@ -39,7 +39,7 @@ public class SnipeProj : MonoBehaviour
         {
             if(hitCollider.GetComponent<PlayerScript>())
             {
-                hitCollider.GetComponent<PlayerScript>().m_currentHealth -=  50;
+                hitCollider.GetComponent<PlayerScript>().currentHealth -=  50;
             }
            
         }
