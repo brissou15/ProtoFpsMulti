@@ -1258,7 +1258,7 @@ Camera:
     y: -0.5
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -3304,6 +3304,7 @@ MonoBehaviour:
   m_baseSpeed: 19.6
   m_wallRunSpeed: 7
   m_jumpForce: 15
+  m_isGrounded: 0
   m_canDoubleJump: 0
   m_jumpCoolDown: 0
   m_jumpTimer: 0
@@ -3469,7 +3470,7 @@ MonoBehaviour:
   downwardsRunkey: 306
   jumpKey: 32
   wallCheckDistance: 0.7
-  minJumpHeight: 1
+  minJumpHeight: 2
   exitWallTime: 0.5
   useGravity: 1
   gravityCounterForce: 5
@@ -3902,7 +3903,7 @@ MonoBehaviour:
   downwardsRunkey: 306
   jumpKey: 32
   wallCheckDistance: 0.7
-  minJumpHeight: 1
+  minJumpHeight: 2
   exitWallTime: 0.5
   useGravity: 1
   gravityCounterForce: 5
@@ -3928,6 +3929,7 @@ MonoBehaviour:
   m_baseSpeed: 19.6
   m_wallRunSpeed: 7
   m_jumpForce: 15.6
+  m_isGrounded: 0
   m_canDoubleJump: 0
   m_jumpCoolDown: 0
   m_jumpTimer: 0
@@ -5538,7 +5540,7 @@ Camera:
     y: 0.5
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0

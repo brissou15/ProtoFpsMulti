@@ -37,7 +37,7 @@ public class WallRun : MonoBehaviour
     private RaycastHit rightWallHit;
     private bool wallLeft;
     private bool wallRight;
-    
+
 
     [Header("Exiting")]
     [SerializeField] private float exitWallTime;
@@ -86,14 +86,14 @@ public class WallRun : MonoBehaviour
             upwardRunning = Input.GetKey(upwardRunkey);
             downwardsRunning = Input.GetKey(downwardsRunkey);
             //WallJump
-            if(player.controler==CONTROLER.CLAVIER)
+            if (player.controler == CONTROLER.CLAVIER)
             {
                 if (Input.GetKeyDown(jumpKey))
                 {
                     WallJump();
                 }
             }
-            else if (player.MyControler!=null)
+            else if (player.MyControler != null)
             {
                 if (player.MyControler.buttonSouth.isPressed)
                 {
@@ -101,9 +101,9 @@ public class WallRun : MonoBehaviour
                     WallJump();
                 }
             }
-           
+
         }
-       
+
     }
     private void checkWall()
     {
@@ -111,7 +111,7 @@ public class WallRun : MonoBehaviour
         Vector3 vectorLeft = Vector3.Scale(-transform.right, transform.localEulerAngles);
         wallRight = Physics.Raycast(transform.position, transform.right, out rightWallHit, wallCheckDistance, whatIsWall);
         wallLeft = Physics.Raycast(transform.position, -transform.right, out leftWallHit, wallCheckDistance, whatIsWall);
-        Debug.DrawRay(transform.position, transform.right,Color.green);
+        Debug.DrawRay(transform.position, transform.right, Color.green);
         Debug.DrawRay(transform.position, -transform.right, Color.green);
     }
 
@@ -124,11 +124,10 @@ public class WallRun : MonoBehaviour
     private void StateMachine()
     {
         // State WallRun
-        if ((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && wallRunTimer < maxWallRunTime && !exitingWall)
+        if ((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && wallRunTimer < maxWallRunTime && !exitingWall && !player.m_isGrounded)
         {
             //le début du wall run
             StartWallRun();
-           
         }
         else if (exitingWall)
         {
@@ -162,11 +161,11 @@ public class WallRun : MonoBehaviour
         Camera camera = player.m_camera;
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);//permet de garder la velocité et d'empêcher le perso de tomber
         if (wallLeft)
-        {            
+        {
             player.m_camera.transform.localEulerAngles = new Vector3(player.m_camera.transform.localEulerAngles.x, player.m_camera.transform.localEulerAngles.y, transform.localEulerAngles.z - leaningOnWall);
         }
         else if (wallRight)
-        {            
+        {
             player.m_camera.transform.localEulerAngles = new Vector3(player.m_camera.transform.localEulerAngles.x, player.m_camera.transform.localEulerAngles.y, transform.localEulerAngles.z + leaningOnWall);
         }
     }
@@ -187,8 +186,10 @@ public class WallRun : MonoBehaviour
         Debug.Log(wallForward);
 
         //force pour avancer
-        //rb.AddForce(wallForward * wallRunForce, ForceMode.Force);
-        rb.velocity = wallForward * player.m_desiredSpeed;
+        //rb.AddForce(wallForward * wallRunForce, ForceMode.Force);        
+        rb.velocity = wallForward * verticalInput * player.m_desiredSpeed;
+
+
 
         //force d'attirance vers le mur
         if (!(wallLeft && horizontalInput > 0) && !(wallRight && horizontalInput < 0))
@@ -239,5 +240,5 @@ public class WallRun : MonoBehaviour
         //add force
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         rb.AddForce(forceToApply, ForceMode.Impulse);
-    }   
+    }
 }

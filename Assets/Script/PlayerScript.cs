@@ -26,7 +26,7 @@ public class PlayerScript : MonoBehaviour
 
     [Header("Saut")]
     [SerializeField] private float m_jumpForce;
-    private bool m_isGrounded;
+    public bool m_isGrounded;
     public bool m_canDoubleJump;
     public float m_jumpCoolDown;
     public float m_jumpTimer;
