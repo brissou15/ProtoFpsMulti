@@ -86,10 +86,22 @@ public class WallRun : MonoBehaviour
             upwardRunning = Input.GetKey(upwardRunkey);
             downwardsRunning = Input.GetKey(downwardsRunkey);
             //WallJump
-            if (Input.GetKeyDown(jumpKey))
+            if(player.controler==CONTROLER.CLAVIER)
             {
-                WallJump();
+                if (Input.GetKeyDown(jumpKey))
+                {
+                    WallJump();
+                }
             }
+            else if (player.MyControler!=null)
+            {
+                if (player.MyControler.buttonSouth.isPressed)
+                {
+                    player.m_jumpTimer = 0;
+                    WallJump();
+                }
+            }
+           
         }
        
     }
@@ -146,6 +158,7 @@ public class WallRun : MonoBehaviour
     private void StartWallRun()
     {
         player.m_wallRunning = true;
+        player.m_canDoubleJump = true;
         Camera camera = player.m_camera;
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);//permet de garder la velocité et d'empêcher le perso de tomber
         if (wallLeft)
@@ -171,16 +184,17 @@ public class WallRun : MonoBehaviour
         {
             wallForward = -wallForward;
         }
+        Debug.Log(wallForward);
 
         //force pour avancer
-        rb.AddForce(wallForward * wallRunForce, ForceMode.Force);
+        //rb.AddForce(wallForward * wallRunForce, ForceMode.Force);
+        rb.velocity = wallForward * player.m_desiredSpeed;
 
         //force d'attirance vers le mur
         if (!(wallLeft && horizontalInput > 0) && !(wallRight && horizontalInput < 0))
         {
             rb.AddForce(-wallNormal * 100, ForceMode.Force);
         }
-
 
         //Monter et descente 
         if (upwardRunning)
@@ -191,7 +205,6 @@ public class WallRun : MonoBehaviour
         {
             rb.velocity = new Vector3(rb.velocity.x, -wallClimbSpeed, rb.velocity.z);
         }
-
 
         //affaiblir la la gravité
         if (useGravity)

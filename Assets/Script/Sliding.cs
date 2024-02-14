@@ -51,7 +51,7 @@ public class Sliding : MonoBehaviour
             {
                 canSlide = Input.GetKeyDown(slideKey);
             }
-            else
+            else if (player.MyControler!=null)
             {
                 canSlide = player.MyControler.buttonEast.isPressed;
             }
