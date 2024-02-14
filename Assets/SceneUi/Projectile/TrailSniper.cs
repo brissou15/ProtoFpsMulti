@@ -11,14 +11,13 @@ public class TrailSnip : MonoBehaviour
     float ThrowForce = 700;
 
 
-    [SerializeField]
     int damage;
 
     // Start is called before the first frame update
     void Start()
     {
         Propulse = GetComponent<Rigidbody>();
-
+        damage = GetComponent<StatProjManager>().DamageRecup;
         Propulse.AddForce(transform.forward * ThrowForce, ForceMode.Impulse);
         Ray ray = new Ray(transform.position, transform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~/*(1 << LayerMask.NameToLayer("Player") |*/ (1 << LayerMask.NameToLayer("Projectile"))))
@@ -30,13 +29,6 @@ public class TrailSnip : MonoBehaviour
                 GameObject Object = Instantiate(Particuleobject, hit.point, Quaternion.identity);
                 //hit.collider.GetComponent<Dummy>().damagingDummy(damage);
 
-
-            }
-
-
-            if (hit.collider.tag == "SnipeProj")
-            {
-                Destroy(hit.collider.gameObject);
 
             }
         }
@@ -52,7 +44,7 @@ public class TrailSnip : MonoBehaviour
     {
         //if (other.gameObject.layer != LayerMask.NameToLayer("Player") )
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 

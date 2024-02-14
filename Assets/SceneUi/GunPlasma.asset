@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cba3e7c2e234fe844b5befb224d0bcd2, type: 3}
-  m_Name: GunSnipe
+  m_Name: GunPlasma
   m_EditorClassIdentifier: 
-  weaponName: Snipe
-  Gun: {fileID: 7022275962840609224, guid: 054a5314c4befd74aa32e727fde40d95, type: 3}
-  magazineSize: 15
+  weaponName: 
+  Gun: {fileID: 4985878355133325645, guid: a49473adb56235949aa7c5796e21e15d, type: 3}
+  magazineSize: 10
   ShootList:
-  - fireRate: 0.9
-    damages: 100
+  - fireRate: 1.44
+    damages: 67
     numberBallSprea: 1
     AngleShoot: 0
-    PrefabProjectile: {fileID: 3901717362915873297, guid: c25f3acb5a069e44eb3c3adfc0be370d, type: 3}
-  - fireRate: 2.13
-    damages: 81
-    numberBallSprea: 1
+    PrefabProjectile: {fileID: 6994077417255576905, guid: 41d8615f2b29b7443bd7ab1aebb04ae4, type: 3}
+  - fireRate: 0.87
+    damages: 36
+    numberBallSprea: 5
     AngleShoot: 10
-    PrefabProjectile: {fileID: 3901717362915873297, guid: c25f3acb5a069e44eb3c3adfc0be370d, type: 3}
+    PrefabProjectile: {fileID: 6994077417255576905, guid: 30ab9e53034605048830277c314c617a, type: 3}

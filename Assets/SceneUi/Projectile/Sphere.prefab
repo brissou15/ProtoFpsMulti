@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 6875954520046296896}
   - component: {fileID: 7463329108870119855}
   - component: {fileID: 1683136497322505650}
+  - component: {fileID: 5308019070507224224}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -261,3 +262,16 @@ MonoBehaviour:
   Trail: {fileID: 3901717362915873297, guid: 7af3769387a64f843bfa832ba9185abc, type: 3}
   ThrowForce: 47
   LayerName: 
+--- !u!114 &5308019070507224224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5552615151539994376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fce3732f6ccd2dc41b82178ab8c3a75b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageRecup: 0

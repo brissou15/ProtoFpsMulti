@@ -13,6 +13,7 @@ public class ProjectileScriptRoquette : MonoBehaviour
     [SerializeField]
     float ThrowForce;
 
+    int damage;
 
     [HideInInspector]
     public string LayerName;
@@ -23,8 +24,8 @@ public class ProjectileScriptRoquette : MonoBehaviour
         Propulse = GetComponent<Rigidbody>();
        
         Propulse.AddForce(transform.forward * ThrowForce, ForceMode.Impulse);
-       
-     
+        damage = GetComponent<StatProjManager>().DamageRecup;
+
     }
 
     // Update is called once per frame
@@ -82,7 +83,7 @@ public class ProjectileScriptRoquette : MonoBehaviour
 
             GameObject Projectile = Instantiate(Trail, transform.position,
                Calcul(11));
-
+            Projectile.GetComponent<StatProjManager>().DamageRecup = damage;
             //Projectile.GetComponent<ProjectileScriptRoquette>().throwDir = CamUi.transform.forward;
             //Projectile.transform.localRotation = CamUi.transform.rotation;
             //Projectile.GetComponent<ProjectileScriptRoquette>().LayerName = LayerMask.LayerToName(gameObject.layer);

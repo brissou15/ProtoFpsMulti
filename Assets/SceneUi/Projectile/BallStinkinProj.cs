@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SnipeProj : MonoBehaviour
+public class BallStinkiProj : MonoBehaviour
 {
     [SerializeField]
     GameObject BOOM;
@@ -21,32 +21,33 @@ public class SnipeProj : MonoBehaviour
         Propulse.AddForce(transform.forward * ThrowForce, ForceMode.Impulse);
 
         damage = GetComponent<StatProjManager>().DamageRecup;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        Destroy(gameObject,1.5f);
+        Destroy(gameObject,0.7f);
     }
     private void OnTriggerEnter(Collider other)
     {
 
         if(other.tag != "SnipeProj" && other.gameObject.layer != LayerMask.NameToLayer("Player"))
         {
-            Destroy(gameObject);
+            Propulse.velocity = Vector3.zero;
         }
         
     }
 
     private void OnDestroy()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 6);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 6.5f);
         foreach (var hitCollider in hitColliders)
         {
             if(hitCollider.GetComponent<PlayerScript>())
             {
                 hitCollider.GetComponent<PlayerScript>().m_currentHealth -= damage;
-
+              
             }
            
         }

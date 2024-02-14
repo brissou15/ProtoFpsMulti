@@ -176,6 +176,7 @@ public class UiGun : MonoBehaviour
         {
             GameObject Projectile = Instantiate(ModelWeapon.ShootList[typeTir].PrefabProjectile, CamUi.transform.position + CamUi.transform.right * 0.1f + -CamUi.transform.up * 0.2f,
                Calcul(ModelWeapon.ShootList[typeTir].AngleShoot));
+            Projectile.GetComponent<StatProjManager>().DamageRecup = ModelWeapon.ShootList[typeTir].damages * (int)player.damageMultiplier;
         }
     }
 
