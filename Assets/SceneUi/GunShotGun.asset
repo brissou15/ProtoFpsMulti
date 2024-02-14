@@ -16,7 +16,7 @@ MonoBehaviour:
   Gun: {fileID: 8744081523781580634, guid: ff76ee69b732e284fa8637dd34f3435a, type: 3}
   magazineSize: 20
   ShootList:
-  - fireRate: 3.92
+  - fireRate: 2.06
     damages: 0
     numberBallSprea: 12
     AngleShoot: 6
