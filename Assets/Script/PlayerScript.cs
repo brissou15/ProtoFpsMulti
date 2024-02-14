@@ -13,6 +13,7 @@ public class PlayerScript : MonoBehaviour
     public Camera m_camera;
     public int m_team;
     public int m_addScore = 5;
+    public int m_damageMultiplier = 1;
 
     [Header("Health")]
     public int m_maxHealth = 10;
@@ -62,10 +63,15 @@ public class PlayerScript : MonoBehaviour
     public CONTROLER controler;//gère si clavier ou souris
     public Gamepad MyControler;
 
-
+    [Header("Death")]
     public bool dead = false;
     public GameObject Boom;
 
+    [Header("Bonus")]
+    public bonusType bonusType = bonusType.Nothing;
+    public float damageMultiplier = 1;
+    public float bonusDuration = 0;
+    private float bonusTimer = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -85,6 +91,7 @@ public class PlayerScript : MonoBehaviour
             vieManager();
             UpdateMovement();
             UpdateCamera();
+            updateBonus();
         }
         exitGame();
         UnlockCursor();
@@ -278,6 +285,20 @@ public class PlayerScript : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
+    }
+
+    void updateBonus()
+    {
+        if(bonusType!=bonusType.Nothing)
+        {
+            bonusTimer += Time.deltaTime;
+            if (bonusTimer >= bonusDuration)
+            {
+                bonusTimer = 0;
+                //reset de toutes les variable modificatrice de stats qui se trouve sous le header Bonus
+                damageMultiplier = 1;
+            }
+        }        
     }
     private void OnCollisionStay(Collision collision)
     {
