@@ -236,8 +236,6 @@ public class UiGun : MonoBehaviour
             GunEquipedId++;
             AmmoReserve.Add(GunList[GunEquipedId].magazineSize);
             Debug.Log(AmmoReserve[GunEquipedId]);
-            
-
         }
     }
 
@@ -253,7 +251,7 @@ public class UiGun : MonoBehaviour
                 SwapGunManager();
             }
         }
-        else
+        else if(player.MyControler!=null)
         {
             if (keyTimer > 0.2 && player.MyControler.buttonNorth.isPressed)
             {

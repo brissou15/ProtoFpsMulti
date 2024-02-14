@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "New Weapon", menuName = "New Weapon/Gun")]
+[System.Serializable]
 public class WeaponSo : ScriptableObject
 {
 
