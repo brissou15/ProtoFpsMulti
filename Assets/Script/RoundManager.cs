@@ -105,7 +105,7 @@ public class RoundManager : MonoBehaviour
             timerRespawnGun4 += Time.deltaTime;
             if (timerRespawnGun4 > 5)
             {
-                BoxGun4 = Instantiate(BoxGun[0], posSpawnBox[3].position, Quaternion.identity);
+                BoxGun4 = Instantiate(BoxGun[2], posSpawnBox[3].position, Quaternion.identity);
                 timerRespawnGun4 = 0;
             }
         }

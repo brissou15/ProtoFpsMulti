@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6570055576586909684}
   - component: {fileID: 7386000393934953574}
   - component: {fileID: 4579371574869261159}
+  - component: {fileID: -4268851231309001771}
   m_Layer: 0
   m_Name: TrailGun
   m_TagString: Untagged
@@ -203,3 +204,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Particuleobject: {fileID: 1266823874811783959, guid: 2c130cb514befcc478631172dc6d89fd, type: 3}
   damage: 14
+--- !u!114 &-4268851231309001771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3901717362915873297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fce3732f6ccd2dc41b82178ab8c3a75b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageRecup: 0

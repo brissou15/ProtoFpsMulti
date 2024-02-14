@@ -12,12 +12,14 @@ public class TrailGun : MonoBehaviour
     float ThrowForce = 1500;
 
 
-    [SerializeField]
     int damage;
 
     // Start is called before the first frame update
     void Start()
     {
+
+        damage = GetComponent<StatProjManager>().DamageRecup;
+
         Propulse = GetComponent<Rigidbody>();
 
         Propulse.AddForce(transform.forward * ThrowForce, ForceMode.Impulse);
