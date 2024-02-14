@@ -19,17 +19,17 @@ public class PlayerScript : MonoBehaviour
     public int m_currentHealth;
 
     [Header("Speeds")]
-    [SerializeField] private float m_desiredSpeed;
+    public float m_desiredSpeed;
     [SerializeField] private float m_baseSpeed;
     [SerializeField] private float m_wallRunSpeed;
 
 
     [Header("Saut")]
     [SerializeField] private float m_jumpForce;
-    private bool m_isGrounded;
-    private bool m_canDoubleJump;
+    public bool m_isGrounded;
+    public bool m_canDoubleJump;
     public float m_jumpCoolDown;
-    private float m_jumpTimer;
+    public float m_jumpTimer;
 
 
     [Header("Camera")]
@@ -117,13 +117,15 @@ public class PlayerScript : MonoBehaviour
         Vector3 inputs = new Vector3();
         if (controler == CONTROLER.CLAVIER)
         {
-            if (Input.GetKey(KeyCode.A))
-                inputs.x = -1f;
-            else if (Input.GetKey(KeyCode.D))
-                inputs.x = 1f;
-            else
-                inputs.x = 0f;
-
+            if(!m_wallRunning)
+            {
+                if (Input.GetKey(KeyCode.A))
+                    inputs.x = -1f;
+                else if (Input.GetKey(KeyCode.D))
+                    inputs.x = 1f;
+                else
+                    inputs.x = 0f;
+            }
             if (Input.GetKey(KeyCode.W))
                 inputs.z = 1f;
             else if (Input.GetKey(KeyCode.S))
@@ -131,14 +133,18 @@ public class PlayerScript : MonoBehaviour
             else
                 inputs.z = 0f;
         }
-        else
+        else if (MyControler!=null)
         {
             if (MyControler != null)
             {
-                if (Mathf.Abs(MyControler.leftStick.ReadValue().x) > deadZone)
+                if(!m_wallRunning)
                 {
-                    inputs.x = MyControler.leftStick.ReadValue().x;
+                    if (Mathf.Abs(MyControler.leftStick.ReadValue().x) > deadZone)
+                    {
+                        inputs.x = MyControler.leftStick.ReadValue().x;
+                    }
                 }
+                
                 if (Mathf.Abs(MyControler.leftStick.ReadValue().y) > deadZone)
                 {
                     inputs.y = MyControler.leftStick.ReadValue().y;
@@ -156,7 +162,7 @@ public class PlayerScript : MonoBehaviour
             Vector3 Velocity = transform.localRotation * inputs * m_desiredSpeed;
             m_rb.velocity = new Vector3(Velocity.x, m_rb.velocity.y, Velocity.z);
         }
-        else
+        else if(MyControler != null)
         {
             m_rb.velocity = transform.localRotation * new Vector3(inputs.x * m_desiredSpeed, m_rb.velocity.y, inputs.y * m_desiredSpeed);
             //m_rb.velocity = Velocity;
@@ -175,9 +181,9 @@ public class PlayerScript : MonoBehaviour
                 canJump = Input.GetKeyDown(JumpKey);
             }
         }
-        else
+        else if(MyControler != null)
         {
-            if (m_jumpTimer > 0.2)
+            if (m_jumpTimer > 0.2 && !m_wallRunning)
             {
                 canJump = MyControler.buttonSouth.IsPressed();
                 if (canJump)
@@ -201,7 +207,6 @@ public class PlayerScript : MonoBehaviour
                 m_canDoubleJump = false;
             }
         }
-
     }
     void UpdateCamera()
     {
@@ -224,10 +229,7 @@ public class PlayerScript : MonoBehaviour
                     {
                         m_rotation.y += MyControler.rightStick.ReadValue().y * m_sensitivityY;
                     }
-
-
                 }
-
             }
 
             m_rotation.y = Mathf.Clamp(m_rotation.y, m_minY, m_maxY);
@@ -243,7 +245,6 @@ public class PlayerScript : MonoBehaviour
                 transform.eulerAngles = new Vector3(transform.eulerAngles.x, rotationX, transform.eulerAngles.z);
                 m_camera.transform.localEulerAngles = new Vector3(-m_rotationY, 0, m_camera.transform.localEulerAngles.z);
             }
-
         }
     }
 
