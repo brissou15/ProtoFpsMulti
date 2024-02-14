@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3577500941017886650}
   - component: {fileID: 5461036846261591189}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 235720181164088657}
   - component: {fileID: 6063477461447515271}
   - component: {fileID: 708531451409917543}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Mesh2_Group3_Group1_Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 5460500730674588898}
   - component: {fileID: 861379605816998887}
   - component: {fileID: 8831486798720459900}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Mesh1_Group2_Group1_Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}

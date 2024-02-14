@@ -15,7 +15,7 @@ public class UiGun : MonoBehaviour
     [SerializeField] private PlayerScript player;
 
 
-    List<int> AmmoReserve = new List<int>();
+    public List<int> AmmoReserve = new List<int>();
     public int currentAmmo = 0;
     public int MaxAmmo = 0;
     GameObject Gun = null;
@@ -55,17 +55,26 @@ public class UiGun : MonoBehaviour
             for (int i = 1; i < GunList.Count;)
             {
                 GunList.Remove(GunList[i]);
-                AmmoReserve.Remove(AmmoReserve[i]);
+                AmmoReserve.Clear();
             }
         }
-
 
         if (GunList.Count > 0)
         {
             Gun = Instantiate(GunList[GunEquipedId].Gun);
             Gun.GetComponent<GunScript>().GunEquiped = true;
             Gun.transform.SetParent(CamUi.transform, false);
+            InitaliseGun();
             AmmoReserve.Add(GunList[GunEquipedId].magazineSize);
+        }
+    }
+
+    void InitaliseGun()
+    {
+        foreach (Transform g in Gun.GetComponentsInChildren<Transform>())
+        {
+            g.gameObject.layer = CamUi.layer;
+
         }
     }
 
@@ -91,16 +100,24 @@ public class UiGun : MonoBehaviour
                     CurrentWeaponD = Gun.GetComponent<GunScript>().weaponDetaille;
 
                     // Debug.Log(CurrentWeaponAnim.GetFloat("TimerShootOui"));
-                    if (typeShootTmp < CurrentWeaponD.ShootList.Length && AmmoReserve[GunEquipedId] > 0)
+
+                    if (AmmoReserve[GunEquipedId] > 0)
                     {
-
-                        if (TimerShoot >= 1 / CurrentWeaponD.ShootList[typeShootTmp].fireRate)
+                        if (typeShootTmp < CurrentWeaponD.ShootList.Length)
                         {
-                            shooting(CurrentWeaponD, typeShootTmp);
-                            --AmmoReserve[GunEquipedId];
-                            TimerShoot = 0;
 
+                            if (TimerShoot >= 1 / CurrentWeaponD.ShootList[typeShootTmp].fireRate)
+                            {
+                                shooting(CurrentWeaponD, typeShootTmp);
+                                --AmmoReserve[GunEquipedId];
+                                TimerShoot = 0;
+
+                            }
                         }
+                    }
+                    else
+                    {
+                        ResetGun();
                     }
                 }
             }
@@ -121,16 +138,23 @@ public class UiGun : MonoBehaviour
                     CurrentWeaponD = Gun.GetComponent<GunScript>().weaponDetaille;
 
                     // Debug.Log(CurrentWeaponAnim.GetFloat("TimerShootOui"));
-                    if (typeShootTmp < CurrentWeaponD.ShootList.Length && AmmoReserve[GunEquipedId] > 0)
+                    if (AmmoReserve[GunEquipedId] > 0)
                     {
-
-                        if (TimerShoot >= 1 / CurrentWeaponD.ShootList[typeShootTmp].fireRate)
+                        if (typeShootTmp < CurrentWeaponD.ShootList.Length)
                         {
-                            shooting(CurrentWeaponD, typeShootTmp);
-                            --AmmoReserve[GunEquipedId];
-                            TimerShoot = 0;
 
+                            if (TimerShoot >= 1 / CurrentWeaponD.ShootList[typeShootTmp].fireRate)
+                            {
+                                shooting(CurrentWeaponD, typeShootTmp);
+                                --AmmoReserve[GunEquipedId];
+                                TimerShoot = 0;
+
+                            }
                         }
+                    }
+                    else
+                    {
+                        ResetGun();
                     }
                 }
             }
@@ -145,19 +169,13 @@ public class UiGun : MonoBehaviour
         return Quaternion.Euler(machin.x, machin.y, machin.z) * CamUi.transform.rotation;
     }
 
-
     private void shooting(WeaponSo ModelWeapon, int typeTir)
     {
         for (int i = 0; i < ModelWeapon.ShootList[typeTir].numberBallSprea; i++)
         {
-
             GameObject Projectile = Instantiate(ModelWeapon.ShootList[typeTir].PrefabProjectile, CamUi.transform.position + CamUi.transform.right * 0.1f + -CamUi.transform.up * 0.2f,
                Calcul(ModelWeapon.ShootList[typeTir].AngleShoot));
-
-
         }
-
-
     }
 
     void SwapGunManager()
@@ -184,38 +202,42 @@ public class UiGun : MonoBehaviour
         }
         else
         {
-            if (player.MyControler.buttonNorth.isPressed && keyTimer > 0.2)
+
+            GunEquipedId++;
+            if (GunEquipedId >= GunList.Count)
             {
-                GunEquipedId++;
-                if (GunEquipedId >= GunList.Count)
-                {
-                    GunEquipedId = 0;
-                }
-                keyTimer = 0;
+                GunEquipedId = 0;
             }
+
+
         }
 
         Gun = Instantiate(GunList[GunEquipedId].Gun);
         Gun.GetComponent<GunScript>().GunEquiped = true;
         Gun.transform.SetParent(CamUi.transform, false);
+        InitaliseGun();
         //CurrentWeaponAnim = Gun.GetComponent<GunScript>().AnimeGun;
-
         CurrentWeaponD = Gun.GetComponent<GunScript>().weaponDetaille;
-
 
     }
     void TakingGunManager()
     {
-        //canShoot = false;
-        Destroy(Gun);
-        Gun = Instantiate(GunList[GunList.Count - 1].Gun);
-        Gun.GetComponent<GunScript>().GunEquiped = true;
-        Gun.transform.SetParent(CamUi.transform, false);
-        //CurrentWeaponAnim = Gun.GetComponent<GunScript>().AnimeGun;
-        CurrentWeaponD = Gun.GetComponent<GunScript>().weaponDetaille;
-        GunEquipedId++;
-        AmmoReserve.Add(GunList[GunEquipedId].magazineSize);
+        //if (GunList.Count == 1)
+        {
+            //canShoot = false;
+            Destroy(Gun);
+            Gun = Instantiate(GunList[GunList.Count - 1].Gun);
+            Gun.GetComponent<GunScript>().GunEquiped = true;
+            Gun.transform.SetParent(CamUi.transform, false);
+            InitaliseGun();
+            //CurrentWeaponAnim = Gun.GetComponent<GunScript>().AnimeGun;
+            CurrentWeaponD = Gun.GetComponent<GunScript>().weaponDetaille;
+            GunEquipedId++;
+            AmmoReserve.Add(GunList[GunEquipedId].magazineSize);
+            Debug.Log(AmmoReserve[GunEquipedId]);
+            
 
+        }
     }
 
     // Update is called once per frame
@@ -223,12 +245,22 @@ public class UiGun : MonoBehaviour
 
     private void LateUpdate()
     {
-
-        if (Input.mouseScrollDelta.y != 0 && GunList.Count > 1)
+        if (player.controler == CONTROLER.CLAVIER)
         {
-
+            if (Input.mouseScrollDelta.y != 0 && GunList.Count > 1)
+            {
+                SwapGunManager();
+            }
         }
-        SwapGunManager();
+        else
+        {
+            if (keyTimer > 0.2 && player.MyControler.buttonNorth.isPressed)
+            {
+                SwapGunManager();
+                keyTimer = 0;
+            }
+        }
+
         MaxAmmo = GunList[GunEquipedId].magazineSize;
         currentAmmo = AmmoReserve[GunEquipedId];
     }
@@ -249,7 +281,7 @@ public class UiGun : MonoBehaviour
                 if (GunList[i].weaponName == newGun.weaponName)
                 {
                     check = true;
-                    
+
                     AmmoReserve[i] = GunList[i].magazineSize;
                     break;
                 }
@@ -261,11 +293,28 @@ public class UiGun : MonoBehaviour
             }
             if (!check)
             {
-                GunList.Add(newGun);
+                if (GunList.Count == 1)
+                {
 
-                TakingGunManager();
+                    GunList.Add(newGun);
+
+                    TakingGunManager();
+                }
+                else
+                {
+                    GunList[1] = newGun;
+                    Destroy(Gun);
+                    Gun = Instantiate(GunList[GunEquipedId].Gun);
+                    Gun.GetComponent<GunScript>().GunEquiped = true;
+                    Gun.transform.SetParent(CamUi.transform, false);
+                    InitaliseGun();
+                    //CurrentWeaponAnim = Gun.GetComponent<GunScript>().AnimeGun;
+                    CurrentWeaponD = Gun.GetComponent<GunScript>().weaponDetaille;
+                    AmmoReserve[1] = GunList[1].magazineSize;
+
+                }
             }
-            
+
             //if (!DejaEquiped)
             //{
 
