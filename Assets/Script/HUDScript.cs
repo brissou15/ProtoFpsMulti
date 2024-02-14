@@ -44,15 +44,15 @@ public class HUDScript : MonoBehaviour
 
     private void debugUI()
     {
-        speedText.text = Mathf.Abs(player.rb.velocity.z).ToString();
+        speedText.text = Mathf.Abs(player.m_rb.velocity.z).ToString();
     }
 
     private void UpdateHealthBar()
     {
         Vector3 currentScale = lifeBar.transform.localScale;
-        lifeBar.transform.localScale = new Vector3(player.currentHealth / (float)player.maxHealth, currentScale.y, currentScale.z);
+        lifeBar.transform.localScale = new Vector3(player.m_currentHealth / (float)player.m_maxHealth, currentScale.y, currentScale.z);
 
-        lifeText.text = ((int)player.currentHealth).ToString() + "/" + ((int)player.maxHealth).ToString();
+        lifeText.text = ((int)player.m_currentHealth).ToString() + "/" + ((int)player.m_maxHealth).ToString();
     }
 
     private void updateAmmo()

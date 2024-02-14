@@ -26,7 +26,7 @@ public class TrailSnip : MonoBehaviour
             if (hit.collider.GetComponent<PlayerScript>())
             {
                 Debug.Log("touched");
-                hit.collider.GetComponent<PlayerScript>().currentHealth -= damage;
+                hit.collider.GetComponent<PlayerScript>().m_currentHealth -= damage;
                 GameObject Object = Instantiate(Particuleobject, hit.point, Quaternion.identity);
                 //hit.collider.GetComponent<Dummy>().damagingDummy(damage);
 
