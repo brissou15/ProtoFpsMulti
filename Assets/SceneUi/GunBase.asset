@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cba3e7c2e234fe844b5befb224d0bcd2, type: 3}
   m_Name: GunBase
   m_EditorClassIdentifier: 
+  SoundGun: {fileID: 8300000, guid: 653ec934371c8b84c91e4c586cc728fa, type: 3}
   weaponName: Pistol
   Gun: {fileID: 7875756403082022123, guid: b90bb76ae83d29e45a14cfd04ea94f38, type: 3}
   magazineSize: 1000
+  PositionDeTire: {x: 0.3, y: -0.3}
   ShootList:
   - fireRate: 7.52
     damages: 15

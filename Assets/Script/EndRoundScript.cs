@@ -9,7 +9,7 @@ public class EndRoundScript : MonoBehaviour
     [SerializeField] private GameObject hudPanel;
     [SerializeField] private GameObject endRoundPanel;
     [SerializeField] private TMP_Text winText;
-    public bool haveEnd;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -29,14 +29,24 @@ public class EndRoundScript : MonoBehaviour
             hudPanel.SetActive(false);
             endRoundPanel   .SetActive(true);
             Cursor.lockState = CursorLockMode.None;
-            haveEnd = true;
+            RoundManager.instance.haveEnd = true;
             ChangeTextWin();
+            Time.timeScale = 0;
+        }
+        else if(RoundManager.instance.roundTimer<=0)
+        {
+            hudPanel.SetActive(false);
+            endRoundPanel.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            RoundManager.instance.haveEnd = true;
+            ChangeTextWin();
+            Time.timeScale = 0;         
         }
     }
 
     private void ChangeTextWin()
     {
-        if (RoundManager.instance.scores[0] >= RoundManager.instance.maxScore)
+        if (RoundManager.instance.scores[0] >= RoundManager.instance.scores[1])
         {
             winText.text = "Blue Team Win";
         }
@@ -44,7 +54,6 @@ public class EndRoundScript : MonoBehaviour
         {
             winText.text = "Red Team Win";
         }
-
     }
 
     public void Restart()
@@ -52,6 +61,7 @@ public class EndRoundScript : MonoBehaviour
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
         Cursor.lockState = CursorLockMode.Locked;
+        RoundManager.instance.haveEnd = false;
     }
 
 }

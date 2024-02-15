@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cba3e7c2e234fe844b5befb224d0bcd2, type: 3}
   m_Name: GunPlasma
   m_EditorClassIdentifier: 
+  SoundGun: {fileID: 8300000, guid: 36e9583cd6e97074aa91fde383925afc, type: 3}
   weaponName: 
   Gun: {fileID: 4985878355133325645, guid: a49473adb56235949aa7c5796e21e15d, type: 3}
   magazineSize: 10
+  PositionDeTire: {x: 1.14, y: 0.05}
   ShootList:
   - fireRate: 1.44
     damages: 67

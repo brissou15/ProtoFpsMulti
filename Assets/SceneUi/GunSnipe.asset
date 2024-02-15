@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cba3e7c2e234fe844b5befb224d0bcd2, type: 3}
   m_Name: GunSnipe
   m_EditorClassIdentifier: 
+  SoundGun: {fileID: 8300000, guid: 725b6ea948cdfc8478da003f7dda1797, type: 3}
   weaponName: Snipe
   Gun: {fileID: 7022275962840609224, guid: 054a5314c4befd74aa32e727fde40d95, type: 3}
   magazineSize: 15
+  PositionDeTire: {x: 0.27, y: -0.33}
   ShootList:
   - fireRate: 0.9
     damages: 100

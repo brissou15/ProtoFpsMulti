@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cba3e7c2e234fe844b5befb224d0bcd2, type: 3}
   m_Name: GunShotGun
   m_EditorClassIdentifier: 
+  SoundGun: {fileID: 8300000, guid: 8dbad9cfbe2d3454bb2458ff8c6a46f9, type: 3}
   weaponName: ShotGun
   Gun: {fileID: 8744081523781580634, guid: ff76ee69b732e284fa8637dd34f3435a, type: 3}
   magazineSize: 20
+  PositionDeTire: {x: 0.16, y: -0.09}
   ShootList:
   - fireRate: 2.06
-    damages: 11
-    numberBallSprea: 9
+    damages: 13
+    numberBallSprea: 11
     AngleShoot: 6
     PrefabProjectile: {fileID: 3901717362915873297, guid: 7af3769387a64f843bfa832ba9185abc, type: 3}
   - fireRate: 2.23

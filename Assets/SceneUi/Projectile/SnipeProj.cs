@@ -23,15 +23,22 @@ public class SnipeProj : MonoBehaviour
         damage = GetComponent<StatProjManager>().DamageRecup;
     }
 
+    float timer = 0;
+
     // Update is called once per frame
     void Update()
     {
         Destroy(gameObject,1.5f);
+
+        timer+= Time.deltaTime;
     }
+
+
+
     private void OnTriggerEnter(Collider other)
     {
 
-        if(other.tag != "SnipeProj" && other.gameObject.layer != LayerMask.NameToLayer("Player"))
+        if(other.tag != "SnipeProj" &&  timer> 0.03)
         {
             Destroy(gameObject);
         }

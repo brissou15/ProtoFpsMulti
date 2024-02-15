@@ -32,6 +32,7 @@ public class UiGun : MonoBehaviour
     // Start is called before the first frame update
 
 
+
     void Start()
     {
         ResetGun();
@@ -169,12 +170,17 @@ public class UiGun : MonoBehaviour
 
         return Quaternion.Euler(machin.x, machin.y, machin.z) * CamUi.transform.rotation;
     }
-
+   
     private void shooting(WeaponSo ModelWeapon, int typeTir)
     {
+        GetComponent<AudioSource>().clip = ModelWeapon.SoundGun;
+        GetComponent<AudioSource>().Play();
+
         for (int i = 0; i < ModelWeapon.ShootList[typeTir].numberBallSprea; i++)
         {
-            GameObject Projectile = Instantiate(ModelWeapon.ShootList[typeTir].PrefabProjectile, CamUi.transform.position + CamUi.transform.right * 0.1f + -CamUi.transform.up * 0.2f,
+            //CamUi.transform.right * 0.1f + -CamUi.transform.up * 0.2f
+
+            GameObject Projectile = Instantiate(ModelWeapon.ShootList[typeTir].PrefabProjectile, CamUi.transform.position + CamUi.transform.right * ModelWeapon.PositionDeTire.x + CamUi.transform.up *ModelWeapon.PositionDeTire.y,
                Calcul(ModelWeapon.ShootList[typeTir].AngleShoot));
             Projectile.GetComponent<StatProjManager>().DamageRecup = ModelWeapon.ShootList[typeTir].damages * (int)player.damageMultiplier;
         }

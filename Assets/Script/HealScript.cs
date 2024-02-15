@@ -12,6 +12,7 @@ public class HealScript : BonusScript
             PlayerScript player = other.gameObject.GetComponent<PlayerScript>();
             if (player.m_currentHealth <= 100)
             {
+                GetComponent<AudioSource>().Play();
                 player.m_currentHealth += value;
                 isLootable = false;
             }

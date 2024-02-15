@@ -281,7 +281,7 @@ public class PlayerScript : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
         }
-        else
+        else if (!RoundManager.instance.haveEnd)
         {
             Cursor.lockState = CursorLockMode.Locked;
         }

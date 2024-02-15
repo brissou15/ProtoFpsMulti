@@ -9749,10 +9749,10 @@ GameObject:
   - component: {fileID: 7456489730545310896}
   - component: {fileID: 4770400927169251516}
   - component: {fileID: 7888805873554890726}
-  - component: {fileID: 8024560207984810049}
   - component: {fileID: 8876859378636258877}
   - component: {fileID: 5069098216714873176}
   - component: {fileID: 6157867479557575747}
+  - component: {fileID: 4595441757098142623}
   m_Layer: 0
   m_Name: SunProj
   m_TagString: SnipeProj
@@ -9828,27 +9828,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &8024560207984810049
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6994077417255576905}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 8
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.49
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &8876859378636258877
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9903,3 +9882,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DamageRecup: 0
+--- !u!136 &4595441757098142623
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6994077417255576905}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.48
+  m_Height: 1.85
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}

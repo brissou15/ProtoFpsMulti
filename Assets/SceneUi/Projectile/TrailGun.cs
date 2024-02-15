@@ -17,7 +17,7 @@ public class TrailGun : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        //CamUi.transform.position + CamUi.transform.right * 0.1f + -CamUi.transform.up * 0.2f
         damage = GetComponent<StatProjManager>().DamageRecup;
 
         Propulse = GetComponent<Rigidbody>();

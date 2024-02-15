@@ -13,6 +13,7 @@ public class RoundManager : MonoBehaviour
     public bool canPlay = false;
     [SerializeField] private float countdownTime = 5;
     public float countdownTimer = 5;
+    public bool haveEnd;
 
     public GameObject Player1PreFab;
     public GameObject Player2PreFab;
@@ -62,7 +63,7 @@ public class RoundManager : MonoBehaviour
     void Update()
     {
         roundTimer -= Time.deltaTime;
-        if (!endRoundScript.haveEnd)
+        if (!haveEnd)
         {
             SpawnSystem();
         }
@@ -80,15 +81,15 @@ public class RoundManager : MonoBehaviour
                 timerRespawnGun1 = 0;
             }
         }
-        if (BoxGun2 == null)
-        {
-            timerRespawnGun2 += Time.deltaTime;
-            if (timerRespawnGun2 > 5)
-            {
-                BoxGun2 = Instantiate(BoxGun[1], posSpawnBox[1].position, Quaternion.identity);
-                timerRespawnGun2 = 0;
-            }
-        }
+        //if (BoxGun2 == null)
+        //{
+        //    timerRespawnGun2 += Time.deltaTime;
+        //    if (timerRespawnGun2 > 5)
+        //    {
+        //        BoxGun2 = Instantiate(BoxGun[1], posSpawnBox[1].position, Quaternion.identity);
+        //        timerRespawnGun2 = 0;
+        //    }
+        //}
 
         if (BoxGun3 == null)
         {

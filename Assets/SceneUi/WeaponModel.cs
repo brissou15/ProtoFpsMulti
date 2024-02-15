@@ -7,17 +7,17 @@ using UnityEngine;
 [System.Serializable]
 public class WeaponSo : ScriptableObject
 {
-
-
+    public AudioClip SoundGun;
 
     public string weaponName;
 
     public GameObject Gun;
- public int magazineSize;
+    public int magazineSize;
+    public Vector2 PositionDeTire;
     [System.Serializable]
     public struct Tir
     {
-       
+
 
         public float fireRate;
         public int damages;
@@ -30,7 +30,7 @@ public class WeaponSo : ScriptableObject
 
     public Tir[] ShootList;
 
-   
+
     //public string weaponName;
 
     //public GameObject Gun;

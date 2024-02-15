@@ -12,6 +12,8 @@ public class QuadDamageScript : BonusScript
             PlayerScript player = other.gameObject.GetComponent<PlayerScript>();
             if (player.bonusType==bonusType.Nothing)
             {
+                GetComponent<AudioSource>().Play();
+
                 player.bonusType = bonusType;
                 player.bonusDuration = duration;
                 player.damageMultiplier = value;
